@@ -145,9 +145,7 @@
       .film-wrap { overflow: hidden; margin-top: 2rem; padding: 1.5rem 0; }
       .film-strip {
         display: flex; gap: 2rem; width: max-content; will-change: transform;
-        animation: marquee 48s linear infinite;
       }
-      @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
       .film-frame {
         position: relative; flex: 0 0 auto; width: clamp(300px, 30vw, 460px); aspect-ratio: 3 / 4;
         border-radius: 20px; overflow: hidden; background: #121212;
@@ -506,26 +504,36 @@
           frame.appendChild(label);
           return frame;
         }
-        function renderInteriorFrames() {
-          if (strip.dataset.ready === "true") return;
-          strip.dataset.ready = "true";
-          interiorItems.forEach(function (item, i) { strip.appendChild(makeFrame(item, i)); });
-          interiorItems.forEach(function (item, i) { strip.appendChild(makeFrame(item, i)); });
-        }
-        const interiorsSection = document.getElementById("interiors");
-        if (interiorsSection && "IntersectionObserver" in window) {
-          const interiorsObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                renderInteriorFrames();
-                interiorsObserver.disconnect();
-              }
-            });
-          }, { rootMargin: "200px 0px" });
-          interiorsObserver.observe(interiorsSection);
-        } else {
-          renderInteriorFrames();
-        }
+    function buildFilmStrip() {
+      if (strip.dataset.built === "true") return;
+      strip.dataset.built = "true";
+      interiorItems.forEach(function (item, i) { strip.appendChild(makeFrame(item, i)); });
+      interiorItems.forEach(function (item, i) { strip.appendChild(makeFrame(item, i)); });
+      startFilmMarquee();
+    }
+    function startFilmMarquee() {
+      if (!window.gsap || strip._tween) return;
+      var setW = Math.max(1, strip.scrollWidth / 2);
+      var dur = Math.max(14, interiorItems.length * 3);
+      strip._tween = gsap.to(strip, { x: -setW, duration: dur, ease: "none", repeat: -1, paused: true });
+    }
+    var interiorsSection = document.getElementById("interiors");
+    if (interiorsSection && "IntersectionObserver" in window) {
+      var filmIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            buildFilmStrip();
+            if (strip._tween && !strip._tween.isActive()) strip._tween.play();
+          } else if (strip._tween) {
+            strip._tween.pause();
+          }
+        });
+      }, { rootMargin: "150px 0px" });
+      filmIO.observe(interiorsSection);
+    } else {
+      buildFilmStrip();
+      if (strip._tween) strip._tween.play();
+    }
         const exteriorPin = document.querySelector(".exterior-pin");
         let active = 0;
         function update() {
