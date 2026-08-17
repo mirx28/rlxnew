@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Residential | RLX Design Studio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { font-family: "DM Sans", sans-serif; background: #000; }
+      body { min-height: 100vh; overflow: hidden; color: #fff; background: #040506; }
+      img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      a { color: inherit; text-decoration: none; }
+
+      /* ===== Nav (shared with other RLX pages) ===== */
+      nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; padding: 1.5rem 1.75rem 0; display: flex; justify-content: space-between; align-items: center; }
+      .nav-logo img { width: auto; height: 28px; display: block; }
+      .nav-toggler { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; position: relative; z-index: 90; }
+      .nav-toggler span { width: 30px; height: 2px; background-color: rgba(255,255,255,0.92); transition: transform 0.4s ease, opacity 0.4s ease; }
+      .nav-toggler.open span:first-child { transform: translateY(3.5px) rotate(45deg) scaleX(0.75); }
+      .nav-toggler.open span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg) scaleX(0.75); }
+
+      .nav-content { position: fixed !important; inset: 0; pointer-events: none; z-index: 70; }
+      .nav-content .nav-bg {
+        position: absolute; inset: 0; background: rgba(10,12,14,0.25);
+        transform: scaleY(0); transform-origin: top; pointer-events: none;
+        transition: transform 0.7s cubic-bezier(0.76,0,0.24,1); will-change: transform;
+      }
+      .nav-content .nav-bg.bg-solid {
+        background: linear-gradient(180deg, rgba(10,12,14,0.94), rgba(10,12,14,0.78));
+        -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
+      .nav-content.open .nav-bg { transform: scaleY(1); }
+      .nav-content .nav-items { pointer-events: none; clip-path: polygon(0 0,100% 0,100% 0,0 0); will-change: clip-path; transition: clip-path 0.55s ease 0.18s; }
+      .nav-content.open .nav-items {
+        pointer-events: auto; clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+        background: transparent !important; border: none !important; box-shadow: none !important; overflow: visible !important;
+      }
+      @media (min-width:1001px){
+        .nav-content .nav-items { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(220px,1fr) minmax(420px,2fr); gap: 3.5rem; padding: 6.5rem 6rem; }
+      }
+      @media (max-width:1000px){
+        .nav-content .nav-items { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 5rem 2rem; }
+      }
+      .nav-items-col { display: flex; flex-direction: column; justify-content: flex-start; gap: 2rem; }
+      .nav-items-sidebar { max-width: 280px; }
+      .nav-items-main { justify-content: center; }
+      .nav-items a { text-decoration: none; color: #fff; display: block; letter-spacing: -2%; line-height: 1.1; margin-bottom: 0.5rem; }
+      .nav-socials, .nav-legal { display: flex; flex-direction: column; gap: 0.85rem; }
+      .nav-socials a, .nav-secondary-links { font-size: 1rem; }
+      .nav-secondary-links { display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
+      .nav-secondary-links span { opacity: 0.75; }
+      .nav-legal a { font-size: 0.9rem; color: #7f8c89; }
+      .nav-primary-links { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; align-items: flex-start; }
+      .nav-links-group { display: contents; }
+      .nav-primary-links a { font-size: clamp(2rem, 3.5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; color: #fff; display: block; padding: 0.1rem 0; transition: transform 0.35s ease, color 0.25s ease; }
+      .nav-primary-links a:hover, .nav-primary-links a:focus { transform: translateX(10px); color: #dce9e1; }
+      @media (max-width:1000px){
+        .nav-items-col:nth-child(1){ display:none; }
+      }
+
+      /* ===== THE REEL: cinematic projector ===== */
+      .reel { position: fixed; inset: 0; overflow: hidden; background: #040506; }
+
+      .reel-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1); }
+      .reel-slide.is-active { opacity: 1; pointer-events: auto; }
+      .reel-media { position: absolute; inset: 0; overflow: hidden; }
+      .reel-media img { transform: scale(1.18); will-change: transform; }
+      .reel-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,5,6,0.10) 30%, rgba(4,5,6,0.55) 66%, rgba(4,5,6,0.9) 100%); pointer-events: none; }
+
+      .reel-copy { position: absolute; z-index: 3; left: 6vw; right: 6vw; bottom: 8.5rem; max-width: 46rem; }
+      .reel-index { font-family: "DM Mono", monospace; font-size: 0.8rem; letter-spacing: 0.22em; opacity: 0.7; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.9rem; }
+      .reel-index .track { opacity: 0.45; }
+      .reel-title { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: clamp(2.6rem, 6.5vw, 6.5rem); letter-spacing: -0.03em; line-height: 0.96; margin-bottom: 0.8rem; }
+      .reel-meta { font-family: "DM Mono", monospace; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; margin-bottom: 1.2rem; }
+      .reel-desc { max-width: 38ch; font-size: 0.98rem; line-height: 1.7; opacity: 0.9; margin-bottom: 1.5rem; }
+      .reel-link { display: inline-flex; align-items: center; padding: 0.65rem 1.1rem; border-radius: 0.75rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.95); transition: background 0.18s ease; }
+      .reel-link:hover { background: rgba(255,255,255,0.14); }
+
+      /* Reveal helper states (animated by GSAP) */
+      .reel-copy .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.28s ease, transform 0.28s ease; }
+      .reel-slide.is-active .reveal { opacity: 1; transform: translateY(0); }
+
+      /* ===== Controls ===== */
+      .reel-controls { position: fixed; z-index: 40; bottom: 2rem; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
+      .reel-arrows { display: flex; gap: 0.6rem; }
+      .reel-arrow { width: 3rem; height: 3rem; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.18s ease; }
+      .reel-arrow:hover { background: rgba(255,255,255,0.16); }
+
+      .reel-strip { display: flex; gap: 0.6rem; align-items: center; }
+      .reel-thumb { position: relative; width: 4.2rem; height: 2.8rem; border-radius: 0.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.14); opacity: 0.45; cursor: pointer; transition: opacity 0.25s ease, border-color 0.25s ease; }
+      .reel-thumb:hover { opacity: 0.8; }
+      .reel-thumb.is-active { opacity: 1; border-color: rgba(255,255,255,0.5); }
+      .reel-thumb span { position: absolute; bottom: 0.2rem; left: 0.35rem; font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
+
+      @media (max-width: 720px) {
+        .reel-strip { display: none; }
+        .reel-controls { padding: 0 1.25rem; }
+        .reel-copy { left: 1.5rem; right: 1.5rem; bottom: 7rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- RLX brand transition -->
+    <div id="rlxTransition" aria-hidden="true"><span class="rlx-brand">RLX</span></div>
+    <style>
+      #rlxTransition{position:fixed;inset:0;z-index:2000;pointer-events:none;background:linear-gradient(180deg,#0b0d11 0%,#0a0c0e 55%,#10131a 100%);display:flex;align-items:center;justify-content:center;clip-path:inset(0 0 100% 0);}
+      #rlxTransition .rlx-brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;letter-spacing:.16em;font-size:clamp(2rem,6vw,4.6rem);color:#e9b87f;opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;}
+      #rlxTransition.rlx-shown .rlx-brand{opacity:1;transform:none;}
+    </style>
+    <script>
+      (function(){
+        var t=document.getElementById('rlxTransition'); if(!t) return;
+        function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+        var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+        var arrived=sessionStorage.getItem('rlxNav')==='1';
+        window.__rlxSkipIntro = arrived || isBack;
+        if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+        if(arrived){
+          sessionStorage.removeItem('rlxNav');
+          t.style.transition='none'; t.style.clipPath='inset(0 0 0 0)'; t.classList.add('rlx-shown');
+          var revealed=false;
+          function doReveal(){ if(revealed) return; revealed=true; requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); }); }
+          if(document.readyState!=='loading'){ doReveal(); } else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+          setTimeout(doReveal,1400);
+        }
+        window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+        document.addEventListener('click', function(e){
+          var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+          if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+          var href=a.getAttribute('href'); if(!internal(href))return;
+          var dest=new URL(href,location.href).href; if(dest===location.href)return;
+          e.preventDefault();
+          sessionStorage.setItem('rlxNav','1');
+          t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 0 0)'; t.classList.add('rlx-shown');
+          setTimeout(function(){ location.href=href; },500);
+        });
+      })();
+    </script>
+
+        <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- ===== REEL STAGE ===== -->
+    <main class="reel" id="reel" aria-live="polite">
+      <!-- 01 -->
+      <section class="reel-slide is-active" data-index="1">
+        <div class="reel-media"><img src="assets/kasmolihero.jpg" alt="3BHK Boutique Villa, Kasmoli" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">01</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Kasmoli Villa</h2>
+          <p class="reel-meta reveal">3BHK Boutique Villa — Kasmoli</p>
+          <p class="reel-desc reveal">A compact three-bedroom villa wrapped around a shaded court, where warm timber and soft light set a quiet, unhurried rhythm.</p>
+          <a class="reel-link reveal" href="kasmoli.html">View Project</a>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="reel-slide" data-index="2">
+        <div class="reel-media"><img src="assets/chandrabhaga-1.jpg" alt="4BHK Boutique Villa, Gujrada" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">02</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Gujrada</h2>
+          <p class="reel-meta reveal">4BHK Boutique Villa — Gujrada</p>
+          <p class="reel-desc reveal">A boutique four-bedroom villa drawn around private courtyards, warm materials, and a quiet, considered pace of living.</p>
+          <a class="reel-link reveal" href="Gujrada.html">View Project</a>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="reel-slide" data-index="3">
+        <div class="reel-media"><img src="assets/bagihero.jpg" alt="7BHK Forest Living Villa, Bagi Bhogpur" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">03</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Bagi Bhogpur</h2>
+          <p class="reel-meta reveal">7BHK Forest Living Villa — Bagi Bhogpur</p>
+          <p class="reel-desc reveal">A seven-bedroom forest residence laid low among the trees, opening generously to the canopy and the weather beyond.</p>
+          <a class="reel-link reveal" href="bagi.html">View Project</a>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="reel-slide" data-index="4">
+        <div class="reel-media"><img src="assets/dang-1.jpg" alt="Dang Residence, Rishikesh" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">04</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Dang Residence</h2>
+          <p class="reel-meta reveal">Rishikesh</p>
+          <p class="reel-desc reveal">A private residence set at the edge of Rishikesh, where interior and landscape are drawn to hold each other, room by room.</p>
+          <a class="reel-link reveal" href="Dang.html">View Project</a>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="reel-slide" data-index="5">
+        <div class="reel-media"><img src="assets/Kailashhero.jpg" alt="Kailash Hills Residence, New Delhi" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">05</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Kailash Hills</h2>
+          <p class="reel-meta reveal">Kailash Hills Residence — New Delhi</p>
+          <p class="reel-desc reveal">A refined Delhi residence balancing privacy and daylight, with interiors sequenced around a calm, garden-hugging heart.</p>
+          <a class="reel-link reveal" href="Kailash.html">View Project</a>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="reel-slide" data-index="6">
+        <div class="reel-media"><img src="assets/bellahero.jpg" alt="Bella Vita Villa, Jaipur" /></div>
+        <div class="reel-scrim"></div>
+        <div class="reel-copy">
+          <p class="reel-index"><span class="reveal">06</span><span class="track">/ 06</span></p>
+          <h2 class="reel-title reveal">Bella Vita</h2>
+          <p class="reel-meta reveal">2BHK Bella Vita Villa — Jaipur</p>
+          <p class="reel-desc reveal">An intimate two-bedroom villa in Jaipur, light on footprint and rich in texture, tuned to warm evenings and quiet mornings.</p>
+          <a class="reel-link reveal" href="Bella.html">View Project</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== CONTROLS ===== -->
+    <div class="reel-controls">
+      <div class="reel-arrows">
+        <button class="reel-arrow" id="prev" aria-label="Previous project">&#8592;</button>
+        <button class="reel-arrow" id="next" aria-label="Next project">&#8594;</button>
+      </div>
+      <div class="reel-strip" id="strip"></div>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+
+        const slides = Array.from(document.querySelectorAll(".reel-slide"));
+        let current = 0;
+        let timer = null;
+        const DURATION = 7000;
+
+        function buildStrip() {
+          const strip = document.getElementById("strip");
+          strip.innerHTML = "";
+          slides.forEach((s, i) => {
+            const img = s.querySelector("img");
+            const th = document.createElement("button");
+            th.className = "reel-thumb" + (i === 0 ? " is-active" : "");
+            th.innerHTML = '<img src="' + img.getAttribute("src") + '" alt="" loading="lazy"/>' + '<span>' + String(i + 1).padStart(2, "0") + "</span>";
+            th.addEventListener("click", () => goTo(i, true));
+            strip.appendChild(th);
+          });
+        }
+
+        function goTo(i, manual = false) {
+          activate(i, manual);
+        }
+
+        function activate(i, manual) {
+          i = (i + slides.length) % slides.length;
+          const prev = slides[current];
+          const next = slides[i];
+          if (prev === next && manual) return;
+
+          current = i;
+
+          if (prev) {
+            const prevImg = prev.querySelector("img");
+            gsap.to(prevImg, { scale: 1.18, duration: 1.2, ease: "power2.out", overwrite: true });
+            prev.classList.remove("is-active");
+            prev.querySelectorAll(".reveal").forEach((el) => {
+              gsap.to(el, { opacity: 0, y: 26, duration: 0.22, ease: "power2.out", overwrite: true });
+            });
+          }
+
+          if (next) {
+            next.classList.add("is-active");
+            const nextReveals = next.querySelectorAll(".reveal");
+            gsap.set(nextReveals, { opacity: 1, y: 0, clearProps: "transform,opacity" });
+            const nextImg = next.querySelector("img");
+            gsap.fromTo(nextImg, { scale: 1.4 }, { scale: 1.15, duration: 7.5, ease: "power1.out" });
+
+            const copy = next.querySelector(".reel-copy");
+            const tl = gsap.timeline({ delay: 0.08 });
+            tl.fromTo(copy.querySelector(".reel-index"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0)
+              .fromTo(copy.querySelector(".reel-title"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.8, ease: "power4.out" }, 0.04)
+              .fromTo(copy.querySelector(".reel-meta"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.18)
+              .fromTo(copy.querySelector(".reel-desc"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.3)
+              .fromTo(copy.querySelector(".reel-link"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.4);
+          }
+
+          document.querySelectorAll(".reel-thumb").forEach((th, idx) => th.classList.toggle("is-active", idx === current));
+
+          resetTimer();
+        }
+
+        function next() { activate(current + 1, true); }
+        function prev() { activate(current - 1, true); }
+        function resetTimer() {
+          clearTimeout(timer);
+          timer = setTimeout(() => activate(current + 1, false), DURATION);
+        }
+
+        document.getElementById("next").addEventListener("click", next);
+        document.getElementById("prev").addEventListener("click", prev);
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") next();
+          if (e.key === "ArrowLeft") prev();
+        });
+
+        // Pause auto-advance while hovering the stage
+        const reel = document.getElementById("reel");
+        reel.addEventListener("mouseenter", () => clearTimeout(timer));
+        reel.addEventListener("mouseleave", resetTimer);
+
+        buildStrip();
+        current = 0;
+        activate(0, true);
+
+        // Keep the reel self-contained and responsive without extra frame loops.
+        const toggler = document.querySelector(".nav-toggler");
+        const navContent = document.querySelector(".nav-content");
+        if (!toggler || !navContent) return;
+        toggler.addEventListener("click", () => {
+          const willOpen = !navContent.classList.contains("open");
+          toggler.classList.toggle("open");
+          navContent.classList.toggle("open");
+          if (willOpen) {
+            gsap.fromTo(".nav-primary-links a", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.06, ease: "power3.out", delay: 0.4 });
+            gsap.fromTo(".nav-socials a, .nav-legal a", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: "power3.out", delay: 0.55 });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

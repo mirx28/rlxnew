@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Planning | RLX Design Studio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { font-family: "DM Sans", sans-serif; background: #040506; color: #fff; }
+      body { background: radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 30%), #040506; color: #fff; -webkit-font-smoothing: antialiased; }
+      img { display: block; }
+      a { color: inherit; text-decoration: none; }
+
+      /* ================= NAV ================= */
+      nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; padding: 1.5rem 1.75rem 0; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+      .nav-logo, .nav-toggler { padding: 0; cursor: pointer; }
+      .nav-logo img { width: auto; height: 28px; display: block; }
+      .nav-toggler { background: none; border: none; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; }
+      .nav-toggler span { width: 30px; height: 2px; background: rgba(255,255,255,0.92); transition: transform .4s ease, opacity .4s ease; }
+      .nav-toggler.open span:first-child { transform: translateY(3.5px) rotate(45deg) scaleX(.75); }
+      .nav-toggler.open span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg) scaleX(.75); }
+      .nav-content { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 19; }
+      .nav-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transform: scaleY(0); transform-origin: top; pointer-events: none; }
+      .nav-items { display: grid; grid-template-columns: minmax(220px,1fr) minmax(420px,2fr); gap: 3.5rem; padding: 6rem; background: transparent; clip-path: polygon(0 0,100% 0,100% 0,0 0); will-change: clip-path; }
+      .nav-content.open .nav-items { background: linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.08) 40%,rgba(255,255,255,.04)); border: 1px solid rgba(255,255,255,.18); box-shadow: 0 40px 120px rgba(0,0,0,.16); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 3rem; overflow: hidden; position: relative; }
+      .nav-items-col { display: flex; flex-direction: column; gap: 2rem; }
+      .nav-items-sidebar { max-width: 280px; }
+      .nav-items-main { justify-content: center; }
+      .nav-items a { display: block; color: #fff; line-height: 1.1; margin-bottom: .5rem; }
+      .nav-socials, .nav-legal { display: flex; flex-direction: column; gap: .85rem; }
+      .nav-socials a, .nav-secondary-links { font-size: 1rem; }
+      .nav-secondary-links { display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap; }
+      .nav-legal a { font-size: .9rem; color: #7f8c89; }
+      .nav-primary-links { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; align-items: flex-start; }
+      .nav-primary-links a { font-size: clamp(1rem,3.5vw,4rem); font-weight: 800; letter-spacing: -.03em; display: block; padding: .1rem 0; transition: transform .35s ease, color .25s ease; }
+      .nav-primary-links a:hover, .nav-primary-links a:focus { transform: translateX(10px); color: #a9e8db; }
+      @media (max-width:1000px){ .nav-items { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 2.5rem; } .nav-primary-links { gap: 1.5rem; } }
+
+      /* unified overlay */
+      .nav-content { position: fixed !important; inset: 0; pointer-events: none; z-index: 70; }
+      .nav-content .nav-bg { position: absolute; inset: 0; background: rgba(10,12,14,.25); transform: scaleY(0); transform-origin: top; pointer-events: none; transition: transform .7s cubic-bezier(.76,0,.24,1); }
+      .nav-content .nav-bg:last-child { background: linear-gradient(180deg,rgba(10,12,14,.84),rgba(10,12,14,.56)); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 40px 120px rgba(0,0,0,.6); }
+      .nav-content.open .nav-bg { transform: scaleY(1); }
+      .nav-content .nav-items { pointer-events: none; clip-path: polygon(0 0,100% 0,100% 0,0 0); transition: clip-path .55s ease .18s; }
+      .nav-content.open .nav-items { pointer-events: auto; clip-path: polygon(0 0,100% 0,100% 100%,0 100%); background: transparent !important; border: none !important; border-radius: 0 !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; overflow: visible !important; }
+      .nav-content a .line { position: relative; will-change: transform; transform: translateY(100%); }
+      .nav-toggler { position: relative; z-index: 90 !important; }
+      nav { position: fixed; z-index: 80 !important; }
+      @media (min-width:1001px){ .nav-content .nav-items { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(220px,1fr) minmax(420px,2fr); gap: 3.5rem; padding: 6.5rem 6rem; } }
+      @media (max-width:1000px){ .nav-content .nav-items { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 5rem 2rem; } }
+
+      /* ================= HERO ================= */
+      .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 8rem 6rem 7rem; overflow: hidden; }
+      .hero-contour { position: absolute; inset: 0; z-index: 0; opacity: .5; }
+      .hero-inner { position: relative; z-index: 2; }
+      .hero-kicker { font-family: "DM Mono",monospace; font-size: .8rem; letter-spacing: .42em; text-transform: uppercase; color: #9fb8b1; margin-bottom: 1.6rem; }
+      .hero-title { font-family: "Cormorant Garamond",serif; font-size: clamp(3rem,9vw,8.5rem); font-weight: 600; line-height: .95; letter-spacing: -.02em; }
+      .hero-title em { font-style: italic; color: #a9e8db; }
+      .hero-sub { max-width: 48ch; margin-top: 2rem; font-size: 1.15rem; line-height: 1.6; color: #c4ceca; }
+      .hero-scroll-cue { position: absolute; right: 6rem; bottom: 7rem; z-index: 2; display: flex; align-items: center; gap: .8rem; font-family: "DM Mono",monospace; font-size: .75rem; letter-spacing: .3em; text-transform: uppercase; color: #9fb8b1; writing-mode: vertical-rl; }
+      .hero-scroll-cue::after { content:''; width: 1px; height: 56px; background: linear-gradient(#7fc8e8,transparent); animation: cue 1.8s ease-in-out infinite; }
+      @keyframes cue { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+      /* ================= SCENE ================= */
+      .scene { position: relative; height: 520vh; }
+      .scene-inner { position: sticky; top: 0; height: 100vh; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; }
+      .scene-progress { position: absolute; left: 6rem; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,.08); z-index: 3; }
+      .scene-progress .fill { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform-origin: top; transform: scaleY(0); background: linear-gradient(#7fc8e8,#a9e8db); }
+
+      .scene-head { display: flex; justify-content: space-between; align-items: flex-start; padding: 5.5rem 6rem 0; }
+      .scene-no { font-family: "DM Mono",monospace; font-size: .82rem; letter-spacing: .35em; color: #8496a0; }
+      .scene-no b { color: #fff; }
+      .scene-year { font-family: "DM Mono",monospace; font-size: .8rem; letter-spacing: .2em; color: #9fb8b1; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: .35rem .9rem; }
+
+      .scene-body { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,34%); gap: 4rem; align-items: center; padding: 1rem 6rem 1.4rem; height: 100%; min-height: 0; }
+
+      .board { position: relative; height: min(56vh, 50vw); aspect-ratio: 1158/1638; justify-self: center; border-radius: 6px; overflow: hidden; background: #fafafa; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+      .board img { width: 100%; height: 100%; object-fit: cover; }
+      .board::after { content:''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); pointer-events: none; z-index: 2; }
+
+      .p { position: absolute; width: 24px; height: 24px; border-radius: 50%; background: #10161a; color: #e9b87f; border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.55); display: grid; place-items: center; font-family: "DM Mono",monospace; font-size: .62rem; z-index: 5; transform: translate(-50%,-50%) scale(0); }
+
+      .pinlines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
+      .pinlines line { stroke: rgba(127,200,232,.85); stroke-width: 1.4; }
+
+      .legend { position: relative; justify-self: center; height: 100%; display: flex; flex-direction: column; justify-content: space-evenly; }
+      .row { display: flex; gap: 1.1rem; align-items: center; opacity: 0; }
+      .row .num { font-family: "DM Mono",monospace; font-size: .8rem; color: #e9b87f; border: 1px solid rgba(233,184,127,.4); border-radius: 50%; width: 36px; height: 36px; display: grid; place-items: center; flex: none; }
+      .row h4 { font-size: 1.02rem; font-weight: 600; letter-spacing: -.01em; }
+      .row p { font-size: .78rem; color: #8aa09a; margin-top: .2rem; line-height: 1.4; }
+      .row .txt { border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: .7rem; }
+
+      .scene-data { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2rem; align-items: start; padding: .6rem 6rem 2.4rem; }
+      .data-title { font-family: "Cormorant Garamond",serif; font-size: clamp(1.4rem,2vw,1.9rem); font-weight: 600; line-height: 1; }
+      .data-title small { display: block; font-family: "DM Sans",sans-serif; font-size: .8rem; font-weight: 400; letter-spacing: .14em; text-transform: uppercase; color: #7fc8e8; margin-bottom: .5rem; }
+      .data-block .data-label { font-family: "DM Mono",monospace; font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: #6f8580; margin-bottom: .45rem; }
+      .data-block .data-val { font-size: 1rem; font-weight: 500; }
+      .data-block .data-val.mono { font-family: "DM Mono",monospace; font-size: .9rem; }
+
+      /* ================= RAIL / COUNTER ================= */
+      .rail { position: fixed; left: 2.2rem; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+      .rail .rail-label { font-family: "DM Mono",monospace; font-size: .66rem; letter-spacing: .28em; text-transform: uppercase; color: #5f7570; writing-mode: vertical-rl; }
+      .rail-line { width: 1px; height: 30vh; background: rgba(255,255,255,.14); position: relative; }
+      .rail-line::after { content:''; position: absolute; left: -2px; top: var(--t,0); width: 5px; height: 5px; border-radius: 50%; background: #7fc8e8; box-shadow: 0 0 12px 2px rgba(127,200,232,.6); }
+      .node { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.18); transition: background .3s, box-shadow .3s, transform .3s; }
+      .node.on { background: #a1e8d8; box-shadow: 0 0 14px 2px rgba(161,232,216,.6); transform: scale(1.25); }
+      .counter { position: fixed; right: 3rem; bottom: 2.4rem; z-index: 5; font-family: "DM Mono",monospace; font-size: .8rem; letter-spacing: .24em; color: #9fb8b1; display: flex; gap: .5rem; align-items: baseline; }
+      .counter .cur { font-size: 1.6rem; color: #fff; font-weight: 500; }
+      .counter .tot { color: #5f7570; }
+
+      .mp-foot { min-height: 40vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.2rem; padding: 6rem; text-align: center; }
+      .mp-foot h2 { font-family: "Cormorant Garamond",serif; font-size: clamp(2rem,5vw,4rem); font-weight: 600; }
+      .mp-foot p { color: #8aa09a; max-width: 52ch; line-height: 1.7; }
+      .mp-foot .cta { margin-top: .5rem; font-family: "DM Mono",monospace; letter-spacing: .2em; text-transform: uppercase; font-size: .78rem; border: 1px solid rgba(255,255,255,.25); padding: .9rem 2rem; border-radius: 999px; transition: background .3s, color .3s; }
+      .mp-foot .cta:hover { background: #fff; color: #040506; }
+
+      @media (max-width:1000px){
+        .hero { padding: 7rem 1.6rem 6rem; }
+        .hero-scroll-cue { right: 1.25rem; }
+        .scene { height: 430vh; }
+        .scene-head { padding: 6rem 1.25rem 0; }
+        .scene-body { grid-template-columns: 1fr; grid-template-rows: 1fr auto; gap: 1.4rem; padding: 1rem 1.25rem; }
+        .board { height: 46vh; width: 100%; aspect-ratio: auto; justify-self: stretch; }
+        .legend { position: relative; width: 100%; height: auto; display: grid; gap: 1.1rem; justify-content: start; }
+        .row { opacity: 1; }
+        .pinlines { display: none; }
+        .scene-data { grid-template-columns: 1fr 1fr; gap: 1.2rem; padding: 1rem 1.25rem 1.5rem; }
+        .rail { left: 1rem; }
+        .counter { right: 1.25rem; bottom: 1.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+<div id="rlxTransition" aria-hidden="true"><span class="rlx-brand">RLX</span></div>
+<style>
+#rlxTransition{position:fixed;inset:0;z-index:2000;pointer-events:none;background:linear-gradient(180deg,#0b0d11 0%,#0a0c0e 55%,#10131a 100%);display:flex;align-items:center;justify-content:center;clip-path:inset(0 0 100% 0);}
+#rlxTransition::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 0%,rgba(201,184,127,.08),transparent 55%);}
+#rlxTransition .rlx-brand{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;letter-spacing:.16em;font-size:clamp(2rem,6vw,4.6rem);color:#e9b87f;opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;position:relative;}
+#rlxTransition.rlx-shown .rlx-brand{opacity:1;transform:none;}
+</style>
+<script>
+(function(){
+  var t=document.getElementById('rlxTransition'); if(!t) return;
+  function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+  var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+  var arrived=sessionStorage.getItem('rlxNav')==='1';
+  window.__rlxSkipIntro = arrived || isBack;
+  if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+  if(arrived){
+    sessionStorage.removeItem('rlxNav');
+    t.style.transition='none';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    var revealed=false;
+    function doReveal(){ if(revealed) return; revealed=true;
+      requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); });
+    }
+    if(document.readyState!=='loading'){ doReveal(); }
+    else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+    setTimeout(doReveal,1400);
+  }
+  window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+  document.addEventListener('click', function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var href=a.getAttribute('href'); if(!internal(href))return;
+    var dest=new URL(href,location.href).href; if(dest===location.href)return;
+    e.preventDefault();
+    sessionStorage.setItem('rlxNav','1');
+    t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    setTimeout(function(){ location.href=href; },500);
+  });
+})();
+</script>
+
+        <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<main class="mp">
+      <section class="hero">
+        <svg class="hero-contour" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="rgba(200,238,230,0.18)" stroke-width="1">
+          <path d="M0,300 C200,280 340,380 520,340 C700,300 820,420 1000,380 C1180,340 1300,400 1440,360" />
+          <path d="M0,420 C220,400 360,500 560,460 C760,420 880,540 1060,500 C1240,460 1360,520 1440,480" />
+          <path d="M0,560 C240,540 400,640 600,600 C800,560 920,680 1100,640 C1280,600 1380,660 1440,620" />
+          <path d="M0,680 C260,660 440,760 640,720 C840,680 960,780 1140,740 C1320,700 1410,760 1440,740" />
+        </g></svg>
+        <div class="hero-inner">
+          <div class="hero-kicker">RLX Design Studio · Master Planning · 2025–26</div>
+          <h1 class="hero-title"><span>Planning <em>whole</em> places,</span><br /><span>one site at a time.</span></h1>
+          <p class="hero-sub">From hillside villa estates to hospitality compounds, our master-planning work shapes the ground before a single building rises — resolving contours, access, and villa typologies into liveable, buildable places.</p>
+        </div>
+        <div class="hero-scroll-cue">Scroll to survey</div>
+      </section>
+
+      <div id="scenes"></div>
+
+      <section class="mp-foot">
+        <h2>Shaping whole places.</h2>
+        <p>Every master-planning commission starts from the land — its contours, access, and regulations — and resolves into a buildable, liveable whole. We'd love to plan yours.</p>
+        <a class="cta" href="contact.html">Start a site</a>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script>
+      const SITES = [
+        { name:"Kasmoli", year:"profile 2026 · Ongoing", img:"plans/kasmoli.jpg",
+          title:"Boutique villas, studios, serviced apartments, clubhouse &amp; hotel",
+          spec:[["Site area","37,360 SQM"],["Plot lots","01 – 32"],["Villa types","V1 · V2 · V3"]],
+          rows:[
+            { x:51, y:0.36, label:"Hotel &amp; Suites", note:"4,310 sqm land · 46,376 sqft" },
+            { x:53, y:0.49, label:"Premium Plots", note:"plot lots · 1A–11A" },
+            { x:74, y:0.68, label:"Premium Villas", note:"serviced villa rows" },
+            { x:29, y:0.75, label:"Plot register", note:"Plot 1–22 · V1–V2" }
+          ]},
+        { name:"Kandari", year:"profile 2025 · Ongoing", img:"plans/kandari.jpg",
+          title:"Boutique villas, studios &amp; clubhouse",
+          spec:[["Site","7,935 sqm"],["Built-up","52,355 SQF"],["F.A.R.","1.5"]],
+          rows:[
+            { x:52, y:0.47, label:"Security gate &amp; access", note:"obstruction-free entry" },
+            { x:40, y:0.52, label:"Studio Block + 1BHK", note:"G+2 · studios" },
+            { x:61, y:0.55, label:"Parking &amp; services", note:"road-side · landscape buffer" },
+            { x:48, y:0.64, label:"Courtyard Villas", note:"JENNY (I) &amp; (II) · 1,910 sqft" }
+          ] },
+        { name:"Tehri Garhwal", year:"Ongoing", img:"plans/tehri.jpg",
+          title:"Boutique villas, studios &amp; clubhouse",
+          spec:[["Site","20,212 sqm"],["Villas","20 + duplex"],["Car parks","43 surface"]],
+          rows:[
+            { x:16, y:0.62, label:"Studio Apartment", note:"paired ridge units" },
+            { x:23, y:0.65, label:"Commercial plaza", note:"public landscape front" },
+            { x:54, y:0.72, label:"Entrance · security", note:"booth · street widening" },
+            { x:76, y:0.73, label:"Villa Type A · B · C", note:"3,112 / 2,118 / 3,112 sqft" }
+          ] },
+        { name:"Gwaad", year:"profile 2025 · Ongoing", img:"plans/gwaad.jpg",
+          title:"Villas &amp; clubhouse along a central spine",
+          spec:[["Site (reg)","14,888 SQM"],["Built-up","6,000 SQM"],["Units","22"]],
+          rows:[
+            { x:79, y:0.59, label:"Hotel &amp; Studios", note:"1,105 sqm · 11,895 sqft" },
+            { x:50, y:0.62, label:"Villa Plots 01–30", note:"central residential layout" },
+            { x:84, y:0.64, label:"Entrance &amp; Security", note:"gate · IBMS" },
+            { x:84, y:0.68, label:"Surface Parking", note:"on-site car parks" }
+          ] }
+      ];
+
+      window.addEventListener("load", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const wrap = document.getElementById("scenes");
+        SITES.forEach((site, i) => {
+          const sec = document.createElement("section");
+          sec.className = "scene";
+          let rowsHtml = "", pinsHtml = "", linesHtml = "";
+          site.rows.forEach((r, ri) => {
+            pinsHtml += `<span class="p" style="left:${r.x}%;top:${r.y*100}%">0${ri+1}</span>`;
+            linesHtml += `<line />`;
+            rowsHtml += `<div class="row"><span class="num">0${ri+1}</span><div class="txt"><h4>${r.label}</h4><p>${r.note}</p></div></div>`;
+          });
+          let spec = "";
+          site.spec.forEach((d) => { spec += `<div class="data-block"><div class="data-label">${d[0]}</div><div class="data-val mono">${d[1]}</div></div>`; });
+          sec.innerHTML = `
+            <div class="scene-inner">
+              <div class="scene-progress"><span class="fill"></span></div>
+              <div class="scene-head">
+                <div class="scene-no">SITE 0${i+1} · <b>${site.name}</b></div>
+                <div class="scene-year">${site.year}</div>
+              </div>
+              <div class="scene-body">
+                <div class="board"><img src="${site.img}" alt="${site.name} master plan" loading="${i===0?'eager':'lazy'}" />${pinsHtml}</div>
+                <svg class="pinlines" viewBox="0 0 1000 1000" preserveAspectRatio="none">${linesHtml}</svg>
+                <div class="legend">${rowsHtml}</div>
+              </div>
+              <div class="scene-data">
+                <div class="data-title"><small>${site.title}</small><span>${site.name}</span></div>
+                ${spec}
+              </div>
+            </div>`;
+          wrap.appendChild(sec);
+        });
+
+        // ---- lenis ----
+        const lenis = new Lenis({ duration:1.2, easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothTouch:true, touchMultiplier:1.5 });
+        const raf = (t)=>{ if(!document.hidden) lenis.raf(t); requestAnimationFrame(raf); };
+        requestAnimationFrame(raf);
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add((t)=>lenis.raf(t*1000));
+        gsap.ticker.lagSmoothing(0);
+
+        // ---- nav ----
+        const toggler = document.querySelector(".nav-toggler");
+        const navContent = document.querySelector(".nav-content");
+        if (toggler && navContent) {
+          let splitDone = false;
+          const ensureSplit = () => { if (splitDone || !window.SplitText) return; try { SplitText.create(".nav-items a",{type:"lines",mask:"lines",linesClass:"line"}); splitDone=true; }catch(e){} };
+          toggler.addEventListener("click", () => {
+            const open = !navContent.classList.contains("open");
+            toggler.classList.toggle("open"); navContent.classList.toggle("open");
+            if (open){ ensureSplit(); if(window.SplitText) gsap.fromTo(".nav-items a .line",{y:"100%"},{y:"0%",duration:.7,stagger:.06,ease:"power3.out",delay:.55}); }
+          });
+        }
+
+        if (window.SplitText) {
+          const h = SplitText.create(".hero-title",{type:"lines",mask:"lines",linesClass:"line"});
+          gsap.set(".hero-title .line",{y:"110%"});
+          gsap.to(".hero-title .line",{y:"0%",duration:1.1,ease:"power4.out",stagger:.08,delay:.1});
+        }
+
+        // ---- scenes ----
+        const scenes = document.querySelectorAll(".scene");
+        const nodes = document.querySelectorAll(".rail .node");
+        const counterCur = document.getElementById("counterCur");
+        const railLine = document.querySelector(".rail-line");
+
+        function layoutScene(scene){
+          const body = scene.querySelector(".scene-body");
+          const svg = scene.querySelector(".pinlines");
+          const board = scene.querySelector(".board");
+          const pins = scene.querySelectorAll(".p");
+          const rows = scene.querySelectorAll(".row");
+          // re-use existing <line> elements so the GSAP timeline keeps valid references
+          let lines = scene.querySelectorAll(".pinlines line");
+          if (lines.length !== rows.length) {
+            const NS = "http://www.w3.org/2000/svg";
+            svg.innerHTML = "";
+            for (let k = 0; k < rows.length; k++) svg.appendChild(document.createElementNS(NS, "line"));
+            lines = scene.querySelectorAll(".pinlines line");
+          }
+          const bodyRect = body.getBoundingClientRect();
+          const boardRect = board.getBoundingClientRect();
+          rows.forEach((row, ri) => {
+            const line = lines[ri]; if (!line) return;
+            // exact pin center from the board rect + its % position (avoid scale(0) transform skew)
+            const px = parseFloat(pins[ri].style.left) || 0;
+            const py = parseFloat(pins[ri].style.top) || 0;
+            const x1 = (boardRect.left - bodyRect.left + boardRect.width * px / 100) / bodyRect.width * 1000;
+            const y1 = (boardRect.top - bodyRect.top + boardRect.height * py / 100) / bodyRect.height * 1000;
+            const num = row.querySelector(".num");
+            const nr = num.getBoundingClientRect();
+            let ro = 0; try { ro = gsap.getProperty(row, "y") || 0; } catch(e){ ro = 0; }
+            const x2 = (nr.left - bodyRect.left + nr.width/2) / bodyRect.width * 1000;
+            const y2 = (nr.top - bodyRect.top + nr.height/2 - ro) / bodyRect.height * 1000;
+            line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+            line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+            const len = Math.hypot(x2-x1,y2-y1);
+            line.style.strokeDasharray = len;
+            if (!scene.__laid) line.style.strokeDashoffset = len;
+            line.__len = len;
+          });
+          scene.__laid = true;
+        }
+        scenes.forEach(layoutScene);
+        window.addEventListener("resize", () => scenes.forEach(layoutScene));
+        requestAnimationFrame(() => requestAnimationFrame(() => scenes.forEach(layoutScene)));
+        setTimeout(() => scenes.forEach(layoutScene), 500);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => scenes.forEach(layoutScene));
+
+        scenes.forEach((scene, i) => {
+          const board = scene.querySelector(".board");
+          const pins = scene.querySelectorAll(".p");
+          const rows = scene.querySelectorAll(".row");
+          const data = scene.querySelector(".scene-data");
+          const head = scene.querySelector(".scene-head");
+          const fill = scene.querySelector(".scene-progress .fill");
+          const lines = scene.querySelectorAll(".pinlines line");
+
+          gsap.set(board, { opacity:0, y:24 });
+          gsap.set(rows, { opacity:0, y:18 });
+          gsap.set(data, { opacity:0, y:16 });
+          gsap.set(pins, { scale:0, xPercent:-50, yPercent:-50 });
+
+          const tl = gsap.timeline({ scrollTrigger:{ trigger:scene, start:"top top", end:"bottom bottom", scrub:.7 } });
+          tl.to(board, { opacity:1, y:0, duration:.8 }, 0)
+            .to(pins, { scale:1, duration:.35, stagger:.16 }, .5);
+          lines.forEach((ln, li) => {
+            tl.to(ln, { strokeDashoffset:0, duration:.5, ease:"power2.out" }, 1 + li*.22);
+          });
+          rows.forEach((row, ri) => {
+            tl.to(row, { opacity:1, y:0, duration:.5, ease:"power3.out" }, 1.05 + ri*.22);
+          });
+          tl.to(data, { opacity:1, y:0, duration:.6 }, 2.3)
+            .to(fill, { scaleY:1, duration:1 }, 0)
+            .to([head, board, rows, data], { opacity:0, y:-10, duration:.45, stagger:.05 }, 2.5);
+        });
+
+        const activate = (idx) => { nodes.forEach((n,k)=>n.classList.toggle("on", k===idx)); counterCur.textContent = String(idx+1).padStart(2,"0"); };
+        scenes.forEach((scene,i)=>{ ScrollTrigger.create({ trigger:scene, start:"top center", end:"bottom center", onEnter:()=>activate(i), onEnterBack:()=>activate(i) }); });
+        ScrollTrigger.create({ start:0, end:()=>document.scrollingElement.scrollHeight - window.innerHeight, onUpdate:(self)=>{ const h=railLine.offsetHeight; railLine.style.setProperty("--t", (self.progress*h)+"px"); } });
+      });
+    </script>
+  </body>
+</html>

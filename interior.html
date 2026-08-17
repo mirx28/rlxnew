@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interior | RLX Design Studio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-family: "DM Sans", sans-serif;
+        background: #000;
+      }
+
+      body {
+        min-height: 100vh;
+        overflow: hidden;
+        color: #fff;
+        background: radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 28%),
+          radial-gradient(circle at bottom, rgba(255,255,255,0.09), transparent 18%),
+          #040506;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 1.5rem 1.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        border: none;
+        gap: 0.5rem;
+      }
+
+      .nav-logo,
+      .nav-toggler {
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .nav-logo img {
+        width: auto;
+        height: 28px;
+        display: block;
+      }
+
+      .nav-toggler {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .nav-toggler span {
+        width: 30px;
+        height: 2px;
+        background-color: rgba(255,255,255,0.92);
+        transition: transform 0.4s ease, opacity 0.4s ease;
+      }
+
+      .nav-toggler.open span:first-child {
+        transform: translateY(3.5px) rotate(45deg) scaleX(0.75);
+      }
+
+      .nav-toggler.open span:nth-child(2) {
+        transform: translateY(-3.5px) rotate(-45deg) scaleX(0.75);
+      }
+
+      .nav-content {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 19;
+      }
+
+      .nav-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        transform: scaleY(0);
+        transform-origin: top;
+        will-change: transform;
+        pointer-events: none;
+        background: rgba(10,12,14,0.25);
+      }
+
+      .nav-content.open .nav-bg {
+        transform: scaleY(1);
+      }
+
+      .nav-content .nav-bg.bg-solid {
+        background: linear-gradient(180deg, rgba(10,12,14,0.94), rgba(10,12,14,0.78));
+        -webkit-backdrop-filter: blur(24px);
+        backdrop-filter: blur(24px);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
+
+      .nav-items {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+        gap: 3.5rem;
+        padding: 6rem 6rem;
+        background: transparent;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+        will-change: clip-path;
+      }
+
+      .nav-content.open .nav-items {
+        pointer-events: auto;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+
+      .nav-items-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2rem;
+      }
+
+      .nav-items-sidebar {
+        max-width: 280px;
+      }
+
+      .nav-items-main {
+        justify-content: center;
+      }
+
+      .nav-socials,
+      .nav-legal {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .nav-socials a,
+      .nav-secondary-links,
+      .nav-legal a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+      }
+
+      .nav-primary-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .nav-links-group {
+        display: contents;
+      }
+
+      .nav-primary-links a {
+        font-size: clamp(2rem, 3.5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #fff;
+        display: block;
+        padding: 0.1rem 0;
+      }
+
+      .slider {
+        position: relative;
+        width: 100vw;
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      .slide,
+      .slide-img {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100svh;
+      }
+
+      .slide {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+      }
+
+      .slide-img {
+        z-index: 0;
+      }
+
+      .slide-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4,6,8,0.15), rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.82));
+        pointer-events: none;
+      }
+
+      .slide-header {
+        position: absolute;
+        inset: auto 0 13rem 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 0 5vw;
+        gap: 1.25rem;
+      }
+
+      .slide-title h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3.5rem, 6vw, 7rem);
+        font-weight: 600;
+        letter-spacing: -0.08rem;
+        line-height: 0.95;
+      }
+
+      .slide-scope-tag {
+        margin-top: 0.85rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-style: italic;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.92;
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .slide-description {
+        max-width: 42rem;
+        font-size: 1.05rem;
+        line-height: 1.9;
+        opacity: 0.92;
+        letter-spacing: 0.02em;
+      }
+
+      .slide-link {
+        margin-top: 0.5rem;
+      }
+
+      .slide-link a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.35rem;
+        border-radius: 0.8rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.95);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .slide-link a:hover {
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.18);
+      }
+
+      .slide-info {
+        position: absolute;
+        left: 0;
+        bottom: 2.5rem;
+        width: 100%;
+        padding: 0 5vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        z-index: 2;
+      }
+
+      .slide-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        opacity: 0.92;
+        text-transform: uppercase;
+      }
+
+      .slide-tags p:first-child {
+        opacity: 0.55;
+        margin-right: 0.75rem;
+      }
+
+      .slide-index-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.9rem;
+        letter-spacing: 0.22em;
+        opacity: 0.95;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          flex-wrap: wrap;
+          padding: 1rem;
+        }
+
+        .slide-header {
+          inset: auto 0 12rem 0;
+          padding: 0 3rem;
+        }
+
+        .slide-description {
+          max-width: 100%;
+          font-size: 0.9rem;
+        }
+
+        .slide-info {
+          padding: 0 3rem;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 650px) {
+        nav {
+          padding: 0.9rem 1rem;
+        }
+
+        .slide-header {
+          inset: auto 0 10rem 0;
+          padding: 0 2rem;
+        }
+
+        .slide-title h1 {
+          font-size: clamp(2.25rem, 10vw, 3.5rem);
+        }
+
+        .slide-description {
+          font-size: 0.8rem;
+        }
+
+        .slide-info {
+          padding: 0 2rem;
+        }
+      }
+
+      .nav-content {
+        position: fixed !important;
+        inset: 0;
+        pointer-events: none;
+        z-index: 70;
+      }
+
+      .nav-content .nav-bg {
+        position: absolute;
+        inset: 0;
+        background: rgba(10,12,14,0.25);
+        transform: scaleY(0);
+        transform-origin: top;
+        pointer-events: none;
+        transition: transform 0.7s cubic-bezier(0.76,0,0.24,1);
+        will-change: transform;
+      }
+
+      .nav-content .nav-bg.bg-solid {
+        background: linear-gradient(180deg, rgba(10,12,14,0.94), rgba(10,12,14,0.78));
+        -webkit-backdrop-filter: blur(24px);
+        backdrop-filter: blur(24px);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
+
+      .nav-content.open .nav-bg {
+        transform: scaleY(1);
+      }
+
+      .nav-content .nav-items {
+        pointer-events: none;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        will-change: clip-path;
+        transition: clip-path 0.55s ease 0.18s;
+      }
+
+      .nav-content.open .nav-items {
+        pointer-events: auto;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        overflow: visible !important;
+      }
+
+      nav {
+        position: fixed;
+        z-index: 80 !important;
+      }
+
+      .nav-toggler {
+        position: relative;
+        z-index: 90 !important;
+      }
+
+      @media (min-width: 1001px) {
+        .nav-content .nav-items {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+          gap: 3.5rem;
+          padding: 6.5rem 6rem;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .nav-content .nav-items {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 5rem 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rlxTransition" aria-hidden="true"><span class="rlx-brand">RLX</span></div>
+    <style>
+      #rlxTransition {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        pointer-events: none;
+        background: linear-gradient(180deg, #0b0d11 0%, #0a0c0e 55%, #10131a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        clip-path: inset(0 0 100% 0);
+      }
+
+      #rlxTransition::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(120% 90% at 50% 0%, rgba(201,184,127,.08), transparent 55%);
+      }
+
+      #rlxTransition .rlx-brand {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-weight: 600;
+        letter-spacing: .16em;
+        font-size: clamp(2rem, 6vw, 4.6rem);
+        color: #e9b87f;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity .5s ease .1s, transform .5s ease .1s;
+        position: relative;
+      }
+
+      #rlxTransition.rlx-shown .rlx-brand {
+        opacity: 1;
+        transform: none;
+      }
+    </style>
+    <script>
+      (function(){
+        var t=document.getElementById('rlxTransition'); if(!t) return;
+        function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+        var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+        var arrived=sessionStorage.getItem('rlxNav')==='1';
+        window.__rlxSkipIntro = arrived || isBack;
+        if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+        if(arrived){
+          sessionStorage.removeItem('rlxNav');
+          t.style.transition='none';
+          t.style.clipPath='inset(0 0 0 0)';
+          t.classList.add('rlx-shown');
+          var revealed=false;
+          function doReveal(){ if(revealed) return; revealed=true;
+            requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); });
+          }
+          if(document.readyState!=='loading'){ doReveal(); }
+          else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+          setTimeout(doReveal,1400);
+        }
+        window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+        document.addEventListener('click', function(e){
+          var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+          if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+          var href=a.getAttribute('href'); if(!internal(href))return;
+          var dest=new URL(href,location.href).href; if(dest===location.href)return;
+          e.preventDefault();
+          sessionStorage.setItem('rlxNav','1');
+          t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)';
+          t.style.clipPath='inset(0 0 0 0)';
+          t.classList.add('rlx-shown');
+          setTimeout(function(){ location.href=href; },500);
+        });
+      })();
+    </script>
+
+        <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="slider">
+      <div class="slide">
+        <div class="slide-img">
+          <img src="assets/recreational.jpg" alt="Recreational Party Hall" />
+        </div>
+
+        <div class="slide-header">
+          <div class="slide-title">
+            <h1>Recreational Party Hall</h1>
+            <div class="slide-scope-tag">[Architecture + Interiors]</div>
+          </div>
+          <div class="slide-link">
+            <a href="recreational.html">View Project</a>
+          </div>
+        </div>
+
+        <div class="slide-info">
+          <div class="slide-tags">
+            <p>Project</p>
+            <p>Recreation</p>
+            <p>Events</p>
+            <p>Gathering</p>
+          </div>
+          <div class="slide-index-wrapper">
+            <p>01 / 01</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggler = document.querySelector(".nav-toggler");
+        const navContent = document.querySelector(".nav-content");
+
+        if (toggler && navContent) {
+          toggler.addEventListener("click", () => {
+            const isOpen = navContent.classList.toggle("open");
+            toggler.classList.toggle("open", isOpen);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
