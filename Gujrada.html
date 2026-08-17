@@ -4,14 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gujrada | RLX Design Studio</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
         <link rel="preload" as="image" href="./assets/Gujrada3.webp" />
         <link rel="preload" as="image" href="./assets/Gujrada4.webp" />
         <link rel="preload" as="image" href="./assets/Gujrada5.webp" />
-
-
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -26,7 +23,6 @@
       img:not(.nav-logo img) { width: 100%; height: 100%; object-fit: cover; display: block; }
       video:not(.nav-logo video) { width: 100%; height: 100%; object-fit: cover; display: block; }
       a { color: inherit; text-decoration: none; }
-
       nav {
         position: fixed; top: 0; left: 0; width: 100vw;
         padding: 1.5rem 2rem 0;
@@ -41,7 +37,6 @@
       .nav-toggler span { width: 32px; height: 2px; background: rgba(255,255,255,0.92); transition: transform .4s ease, opacity .4s ease; }
       .nav-toggler.open span:first-child { transform: translateY(4px) rotate(45deg); }
       .nav-toggler.open span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
-
       .nav-content { position: fixed !important; inset: 0; pointer-events: none; z-index: 70; }
       .nav-content .nav-bg {
         position: absolute; inset: 0; background: rgba(10,12,14,0.25);
@@ -85,7 +80,6 @@
         .nav-primary-links a { font-size: clamp(1.6rem,6.4vw,2.2rem); }
         nav { padding: 1rem 1.25rem 0; }
       }
-
       .exterior-pin { height: 1000vh; position: relative; }
       .exterior-stage { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
       .exterior-slide {
@@ -136,7 +130,6 @@
       }
       .scroll-hint .chev { display: block; margin: .4rem auto 0; font-size: 1rem; animation: hintDrop 1.4s ease-in-out infinite; }
       @keyframes hintDrop { 0%,100% { transform: translateY(0); opacity: .4; } 50% { transform: translateY(6px); opacity: 1; } }
-
       .interiors {
         position: relative; z-index: 5; background: #080808;
         padding: 5rem 0 6rem; overflow: hidden;
@@ -149,7 +142,6 @@
       .interiors-title { font-size: clamp(2.4rem,6vw,5.5rem); font-weight: 600; letter-spacing: -.03em; line-height: .95; }
       .interiors-title em { font-style: italic; font-weight: 400; color: rgba(255,255,255,.9); }
       .interiors-desc { max-width: 640px; margin-top: 1.2rem; font-size: 18px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.78); }
-
       .film-wrap { overflow: hidden; margin-top: 2rem; padding: 1.5rem 0; }
       .film-strip {
         display: flex; gap: 2rem; width: max-content; will-change: transform;
@@ -179,7 +171,6 @@
       }
       .film-frame .frame-label .fnum { font-family: "DM Mono", monospace; font-size: .7rem; letter-spacing: .16em; color: rgba(255,255,255,.8); }
       .film-frame .frame-label .fname { font-size: 1.3rem; font-weight: 600; letter-spacing: -.03em; color: #fff; }
-
       .vital-hud {
         position: absolute; right: 2.2rem; top: 50%; transform: translateY(-50%);
         z-index: 60; pointer-events: none;
@@ -215,7 +206,6 @@
         .vital-node .vn-value { font-size: 17px; }
         .vital-node .vn-dot { right: -14px; width: 6px; height: 6px; }
       }
-
       .brief {
         position: relative; z-index: 5; background: #07080b;
         padding: 7rem 0 8rem; overflow: hidden;
@@ -255,14 +245,12 @@
         .brief-para { font-size: 17px; }
         .brief-grid { grid-template-columns: 1fr; gap: 2.4rem; }
       }
-
       footer {
         position: fixed; bottom: 0; left: 0; width: 100vw; padding: 1.4rem 2rem;
         display: flex; justify-content: space-between; align-items: center; z-index: 40; pointer-events: none;
       }
       footer p { color: #fff; font-size: .85rem; opacity: .75; letter-spacing: .08em; }
       .footer-counter { font-family: "DM Mono", monospace; font-size: .85rem; color: #e9b87f; letter-spacing: .1em; }
-
       #rlxTransition {
         position: fixed; inset: 0; z-index: 2000; pointer-events: none;
         background: linear-gradient(180deg, #0b0d11, #0a0c0e 55%, #10131a);
@@ -275,7 +263,6 @@
         transition: opacity .5s ease .1s, transform .5s ease .1s; position: relative;
       }
       #rlxTransition.rlx-shown .rlx-brand { opacity: 1; transform: none; }
-
       @media (max-width: 900px) {
         .slide-main-img { width: 62%; height: 40%; top: 38%; }
         .slide-copy { top: 82%; left: 50%; transform: translate(-50%,-50%); width: 84%; }
@@ -335,7 +322,6 @@
         });
       })();
     </script>
-
         <nav>
       <div class="nav-logo">
         <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
@@ -345,13 +331,11 @@
         <span></span>
       </button>
     </nav>
-
     <div class="nav-content">
       <div class="nav-bg"></div>
       <div class="nav-bg"></div>
       <div class="nav-bg"></div>
       <div class="nav-bg bg-solid"></div>
-
       <div class="nav-items">
         <div class="nav-items-col nav-items-sidebar">
           <div class="nav-socials">
@@ -384,7 +368,6 @@
         </div>
       </div>
     </div>
-
 <section class="exterior-pin">
       <div class="exterior-stage">
         <div id="exteriorSlides"></div>
@@ -398,7 +381,6 @@
         <div class="scroll-hint" id="scrollHint">Scroll for Interiors<span class="chev">&#8595;</span></div>
       </div>
     </section>
-
     <section class="brief" id="brief">
       <div class="brief-inner">
         <div class="brief-eyebrow reveal">Project Highlights</div>
@@ -430,7 +412,6 @@
         </div>
       </div>
     </section>
-
     <section class="interiors" id="interiors">
       <div class="interiors-head">
         <div class="interiors-eyebrow">Gujrada Cluster</div>
@@ -441,16 +422,13 @@
         <div class="film-strip" id="filmStrip"></div>
       </div>
     </section>
-
     <footer>
       <p>Gujrada</p>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const exteriorSlidesData = [
@@ -458,7 +436,6 @@
           { title: "The Cluster Court", desc: "Private villas united by one architectural language" }
         ];
         const EXTERIOR_TOTAL = exteriorSlidesData.length;
-
         const interiorItems = [
           { type: "image", src: "./assets/Gujrada3.webp", name: "Living Hearth" },
           { type: "image", src: "./assets/Gujrada4.webp", name: "Courtyard Calm" },
@@ -471,16 +448,13 @@
           { type: "image", src: "./assets/Gujrada11.webp", name: "Open Deck" },
           { type: "image", src: "./assets/Gujrada12.webp", name: "Evening Rest" }
         ];
-
         const slidesEl = document.getElementById("exteriorSlides");
         const scrollHint = document.getElementById("scrollHint");
         const footerCounter = document.getElementById("footerCounter");
         const slideNodes = [];
-
         exteriorSlidesData.forEach(function (item, i) {
           const s = document.createElement("div");
           s.className = "exterior-slide";
-
           const bg = document.createElement("div");
           bg.className = "slide-bg";
           const bgImg = document.createElement("img");
@@ -489,7 +463,6 @@
           bgImg.loading = i === 0 ? "eager" : "lazy";
           bg.appendChild(bgImg);
           s.appendChild(bg);
-
           const panel = document.createElement("div");
           panel.className = "slide-main-img";
           const panelImg = document.createElement("img");
@@ -497,7 +470,6 @@
           panelImg.alt = "";
           panel.appendChild(panelImg);
           s.appendChild(panel);
-
           const copy = document.createElement("div");
           copy.className = "slide-copy";
           copy.innerHTML =
@@ -505,18 +477,15 @@
             '<h1 class="slide-title">' + item.title + '</h1>' +
             '<p class="slide-description">' + item.desc + '</p>';
           s.appendChild(copy);
-
           slidesEl.appendChild(s);
           slideNodes.push(s);
         });
-
         function setActiveSlide(index) {
           slideNodes.forEach(function (s, i) { s.classList.toggle("is-active", i === index); });
           const cur = String(index + 1).padStart(2, "0");
           footerCounter.textContent = cur + " / 02";
           scrollHint.style.opacity = index === EXTERIOR_TOTAL - 1 ? "1" : "0";
         }
-
         const strip = document.getElementById("filmStrip");
         function makeFrame(item, index) {
           const frame = document.createElement("div");
@@ -526,7 +495,6 @@
           const img = document.createElement("img");
           img.src = item.src;
           img.alt = item.name;
-          img.loading = "lazy";
           img.decoding = "async";
           img.fetchPriority = "low";
           media.appendChild(img);
@@ -557,10 +525,8 @@
         } else {
           renderInteriorFrames();
         }
-
         const exteriorPin = document.querySelector(".exterior-pin");
         let active = 0;
-
         function update() {
           const y = window.scrollY;
           const vh = window.innerHeight;
@@ -572,17 +538,14 @@
             setActiveSlide(idx);
           }
         }
-
         window.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
         setActiveSlide(0);
         update();
-
         initVitals();
         initReveal();
         setupNav();
       });
-
       function initReveal() {
         const els = document.querySelectorAll(".brief .reveal");
         if (els.length === 0) return;
@@ -599,12 +562,10 @@
           io.observe(el);
         });
       }
-
       function initVitals() {
         const hud = document.getElementById("vitalHud");
         const nodes = hud ? Array.prototype.slice.call(hud.querySelectorAll(".vital-node")) : [];
         if (!hud || nodes.length === 0) return;
-
         function updateVitals() {
           const stage = document.querySelector(".exterior-pin");
           const max = stage ? Math.max(1, stage.offsetHeight - window.innerHeight) : 1;
@@ -615,12 +576,10 @@
             n.classList.toggle("pulse", i === active);
           });
         }
-
         window.addEventListener("scroll", updateVitals, { passive: true });
         window.addEventListener("resize", updateVitals);
         updateVitals();
       }
-
       function setupNav() {
         const toggler = document.querySelector(".nav-toggler");
         const navContent = document.querySelector(".nav-content");
