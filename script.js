@@ -34,14 +34,16 @@ try {
   gsap.registerPlugin(SplitText, CustomEase, ScrollTrigger);
   CustomEase.create("hop", "0.8, 0, 0.1, 1");
 
+  const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
   const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-  smoothTouch: true,
-  touchMultiplier: 1.5,
-  infinite: false,
-});
+    duration: isMobile ? 0.9 : 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: !isMobile,
+    smoothTouch: !isMobile,
+    touchMultiplier: isMobile ? 0.9 : 1.5,
+    wheelMultiplier: isMobile ? 0.8 : 1,
+    infinite: false,
+  });
 
 lenisInstance = lenis;
 
@@ -395,11 +397,13 @@ function updateSlider() {
   }
 }
 
+const sliderSmoothing = isMobile ? 0.12 : settings.smoothness;
+
 function animateSlider() {
   requestAnimationFrame(animateSlider);
   // Skip the per-frame DOM/transform work while the tab is hidden.
   if (document.hidden) return;
-  scrollPosition += (scrollTarget - scrollPosition) * settings.smoothness;
+  scrollPosition += (scrollTarget - scrollPosition) * sliderSmoothing;
   updateSlider();
 }
 
