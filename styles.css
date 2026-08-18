@@ -9,15 +9,29 @@ body { background-color: #0a0a0c; }
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
 body {
   font-family: "PP Neue Montreal", sans-serif;
   background-color: #fff;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
+  touch-action: pan-y;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overscroll-behavior-y: contain;
+  }
 }
 
 h1,
@@ -591,6 +605,7 @@ nav {
   font-weight: 800;
   letter-spacing: -2%;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .slide-title--condensed {
@@ -610,6 +625,7 @@ nav {
   font-weight: 600;
   letter-spacing: -1%;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .slide-link {
@@ -626,6 +642,33 @@ nav {
   color: inherit;
   pointer-events: auto;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 430px) {
+  .slide-tags {
+    top: 24%;
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  .slide-title {
+    top: 47%;
+    font-size: clamp(1.9rem, 8.8vw, 3.1rem);
+    letter-spacing: -0.04em;
+  }
+
+  .slide-title--condensed {
+    font-size: clamp(1.35rem, 7vw, 2.4rem);
+    letter-spacing: -0.03em;
+  }
+
+  .slide-link {
+    top: 66%;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
 }
 
 /* ===== Spotlight Section ===== */
