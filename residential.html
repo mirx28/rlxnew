@@ -61,44 +61,224 @@
         .nav-items-col:nth-child(1){ display:none; }
       }
 
-      /* ===== THE REEL: cinematic projector ===== */
-      .reel { position: fixed; inset: 0; overflow: hidden; background: #040506; }
+      .slider {
+        position: relative;
+        width: 100vw;
+        height: 100svh;
+        overflow: hidden;
+      }
 
-      .reel-slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1); }
-      .reel-slide.is-active { opacity: 1; pointer-events: auto; }
-      .reel-media { position: absolute; inset: 0; overflow: hidden; }
-      .reel-media img { transform: scale(1.18); will-change: transform; }
-      .reel-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,5,6,0.10) 30%, rgba(4,5,6,0.55) 66%, rgba(4,5,6,0.9) 100%); pointer-events: none; }
+      .slide,
+      .slide-img {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100svh;
+      }
 
-      .reel-copy { position: absolute; z-index: 3; left: 6vw; right: 6vw; bottom: 8.5rem; max-width: 46rem; }
-      .reel-index { font-family: "DM Mono", monospace; font-size: 0.8rem; letter-spacing: 0.22em; opacity: 0.7; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.9rem; }
-      .reel-index .track { opacity: 0.45; }
-      .reel-title { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: clamp(2.6rem, 6.5vw, 6.5rem); letter-spacing: -0.03em; line-height: 0.96; margin-bottom: 0.8rem; }
-      .reel-meta { font-family: "DM Mono", monospace; font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; margin-bottom: 1.2rem; }
-      .reel-desc { max-width: 38ch; font-size: 0.98rem; line-height: 1.7; opacity: 0.9; margin-bottom: 1.5rem; }
-      .reel-link { display: inline-flex; align-items: center; padding: 0.65rem 1.1rem; border-radius: 0.75rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.95); transition: background 0.18s ease; }
-      .reel-link:hover { background: rgba(255,255,255,0.14); }
+      .slide {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        will-change: transform;
+      }
 
-      /* Reveal helper states (animated by GSAP) */
-      .reel-copy .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.28s ease, transform 0.28s ease; }
-      .reel-slide.is-active .reveal { opacity: 1; transform: translateY(0); }
+      .slide-img {
+        z-index: 0;
+      }
 
-      /* ===== Controls ===== */
-      .reel-controls { position: fixed; z-index: 40; bottom: 2rem; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
-      .reel-arrows { display: flex; gap: 0.6rem; }
-      .reel-arrow { width: 3rem; height: 3rem; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.18s ease; }
-      .reel-arrow:hover { background: rgba(255,255,255,0.16); }
+      .slide-img img {
+        transform: scale(1.12);
+        transition: transform 1.6s cubic-bezier(.4,0,.2,1);
+        filter: brightness(.8);
+      }
 
-      .reel-strip { display: flex; gap: 0.6rem; align-items: center; }
-      .reel-thumb { position: relative; width: 4.2rem; height: 2.8rem; border-radius: 0.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.14); opacity: 0.45; cursor: pointer; transition: opacity 0.25s ease, border-color 0.25s ease; }
-      .reel-thumb:hover { opacity: 0.8; }
-      .reel-thumb.is-active { opacity: 1; border-color: rgba(255,255,255,0.5); }
-      .reel-thumb span { position: absolute; bottom: 0.2rem; left: 0.35rem; font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
+      .slide-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4,6,8,0.15), rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.82));
+        pointer-events: none;
+      }
 
-      @media (max-width: 720px) {
-        .reel-strip { display: none; }
-        .reel-controls { padding: 0 1.25rem; }
-        .reel-copy { left: 1.5rem; right: 1.5rem; bottom: 7rem; }
+      .slide-header {
+        position: absolute;
+        inset: auto 0 13rem 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 0 5vw;
+        gap: 1.25rem;
+      }
+
+      .slide-title h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3.5rem, 6vw, 7rem);
+        font-weight: 600;
+        letter-spacing: -0.08rem;
+        line-height: 0.95;
+        text-transform: none;
+      }
+
+      .slide-scope-tag {
+        margin-top: 0.85rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-style: italic;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.92;
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .slide-description {
+        max-width: 42rem;
+        font-family: "DM Sans", sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.9;
+        opacity: 0.92;
+        letter-spacing: 0.02em;
+        text-transform: none;
+      }
+
+      .slide-link a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.2rem;
+        border-radius: 0.75rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.95);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .slide-link a:hover {
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.18);
+      }
+
+      .slide-info {
+        position: absolute;
+        left: 0;
+        bottom: 2.5rem;
+        width: 100%;
+        padding: 0 5vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        z-index: 2;
+      }
+
+      .slide-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        opacity: 0.92;
+        text-transform: uppercase;
+      }
+
+      .slide-tags p:first-child {
+        opacity: 0.55;
+        margin-right: 0.75rem;
+      }
+
+      .slide-tags p:not(:first-child) {
+        opacity: 0.75;
+      }
+
+      .slide-index-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.9rem;
+        letter-spacing: 0.22em;
+        opacity: 0.95;
+      }
+
+      .slide-index-wrapper p {
+        font-variation-settings: 'wght' 500;
+      }
+
+      .line,
+      .word {
+        position: relative;
+        display: inline-block;
+        will-change: transform;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          flex-wrap: wrap;
+          padding: 1rem;
+        }
+
+        .nav-links {
+          order: 2;
+          width: 100%;
+          justify-content: center;
+          gap: 0.75rem 1rem;
+        }
+
+        .slide-header {
+          inset: auto 0 12rem 0;
+          padding: 0 3rem;
+        }
+
+        .slide-description {
+          max-width: 100%;
+          font-size: 0.9rem;
+        }
+
+        .slide-info {
+          padding: 0 3rem;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 650px) {
+        nav {
+          padding: 0.9rem 1rem;
+          border-radius: 18px;
+        }
+
+        .nav-brand span {
+          display: none;
+        }
+
+        .nav-links {
+          justify-content: flex-start;
+        }
+
+        .slide-header {
+          inset: auto 0 10rem 0;
+          padding: 0 2rem;
+        }
+
+        .slide-title h1 {
+          font-size: clamp(2.25rem, 10vw, 3.5rem);
+        }
+
+        .slide-description {
+          font-size: 0.8rem;
+        }
+
+        .slide-info {
+          padding: 0 2rem;
+        }
       }
     </style>
   </head>
@@ -190,197 +370,365 @@
       </div>
     </div>
 
-<!-- ===== REEL STAGE ===== -->
-    <main class="reel" id="reel" aria-live="polite">
-      <!-- 01 -->
-      <section class="reel-slide is-active" data-index="1">
-        <div class="reel-media"><img src="assets/kasmolihero.jpg" alt="3BHK Boutique Villa, Kasmoli" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">01</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Kasmoli Villa</h2>
-          <p class="reel-meta reveal">3BHK Boutique Villa — Kasmoli</p>
-          <p class="reel-desc reveal">A compact three-bedroom villa wrapped around a shaded court, where warm timber and soft light set a quiet, unhurried rhythm.</p>
-          <a class="reel-link reveal" href="kasmoli.html">View Project</a>
-        </div>
-      </section>
-
-      <!-- 02 -->
-      <section class="reel-slide" data-index="2">
-        <div class="reel-media"><img src="assets/chandrabhaga-1.jpg" alt="4BHK Boutique Villa, Gujrada" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">02</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Gujrada</h2>
-          <p class="reel-meta reveal">4BHK Boutique Villa — Gujrada</p>
-          <p class="reel-desc reveal">A boutique four-bedroom villa drawn around private courtyards, warm materials, and a quiet, considered pace of living.</p>
-          <a class="reel-link reveal" href="Gujrada.html">View Project</a>
-        </div>
-      </section>
-
-      <!-- 03 -->
-      <section class="reel-slide" data-index="3">
-        <div class="reel-media"><img src="assets/bagihero.jpg" alt="7BHK Forest Living Villa, Bagi Bhogpur" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">03</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Bagi Bhogpur</h2>
-          <p class="reel-meta reveal">7BHK Forest Living Villa — Bagi Bhogpur</p>
-          <p class="reel-desc reveal">A seven-bedroom forest residence laid low among the trees, opening generously to the canopy and the weather beyond.</p>
-          <a class="reel-link reveal" href="bagi.html">View Project</a>
-        </div>
-      </section>
-
-      <!-- 04 -->
-      <section class="reel-slide" data-index="4">
-        <div class="reel-media"><img src="assets/dang-1.jpg" alt="Dang Residence, Rishikesh" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">04</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Dang Residence</h2>
-          <p class="reel-meta reveal">Rishikesh</p>
-          <p class="reel-desc reveal">A private residence set at the edge of Rishikesh, where interior and landscape are drawn to hold each other, room by room.</p>
-          <a class="reel-link reveal" href="Dang.html">View Project</a>
-        </div>
-      </section>
-
-      <!-- 05 -->
-      <section class="reel-slide" data-index="5">
-        <div class="reel-media"><img src="assets/Kailashhero.jpg" alt="Kailash Hills Residence, New Delhi" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">05</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Kailash Hills</h2>
-          <p class="reel-meta reveal">Kailash Hills Residence — New Delhi</p>
-          <p class="reel-desc reveal">A refined Delhi residence balancing privacy and daylight, with interiors sequenced around a calm, garden-hugging heart.</p>
-          <a class="reel-link reveal" href="Kailash.html">View Project</a>
-        </div>
-      </section>
-
-      <!-- 06 -->
-      <section class="reel-slide" data-index="6">
-        <div class="reel-media"><img src="assets/bellahero.jpg" alt="Bella Vita Villa, Jaipur" /></div>
-        <div class="reel-scrim"></div>
-        <div class="reel-copy">
-          <p class="reel-index"><span class="reveal">06</span><span class="track">/ 06</span></p>
-          <h2 class="reel-title reveal">Bella Vita</h2>
-          <p class="reel-meta reveal">2BHK Bella Vita Villa — Jaipur</p>
-          <p class="reel-desc reveal">An intimate two-bedroom villa in Jaipur, light on footprint and rich in texture, tuned to warm evenings and quiet mornings.</p>
-          <a class="reel-link reveal" href="Bella.html">View Project</a>
-        </div>
-      </section>
-    </main>
-
-    <!-- ===== CONTROLS ===== -->
-    <div class="reel-controls">
-      <div class="reel-arrows">
-        <button class="reel-arrow" id="prev" aria-label="Previous project">&#8592;</button>
-        <button class="reel-arrow" id="next" aria-label="Next project">&#8594;</button>
-      </div>
-      <div class="reel-strip" id="strip"></div>
-    </div>
+    <div class="slider"></div>
 
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        const slides = [
+          {
+            slideTitle: "Kasmoli Villa",
+            slideDescription:
+              "A compact three-bedroom villa wrapped around a shaded court, where warm timber and soft light set a quiet, unhurried rhythm.",
+            slideUrl: "kasmoli.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Warmth", "Materiality", "Private Court", "Calm"],
+            slideImg: "assets/kasmolihero.jpg",
+          },
+          {
+            slideTitle: "Gujrada",
+            slideDescription:
+              "A boutique four-bedroom villa drawn around private courtyards, warm materials, and a quiet, considered pace of living.",
+            slideUrl: "Gujrada.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Courtyard", "Boutique", "Calm", "Craft"],
+            slideImg: "assets/chandrabhaga-1.jpg",
+          },
+          {
+            slideTitle: "Bagi Bhogpur",
+            slideDescription:
+              "A seven-bedroom forest residence laid low among the trees, opening generously to the canopy and the weather beyond.",
+            slideUrl: "bagi.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Forest Living", "Natural Light", "Landscape", "Privacy"],
+            slideImg: "assets/bagihero.jpg",
+          },
+          {
+            slideTitle: "Dang Residence",
+            slideDescription:
+              "A private residence set at the edge of Rishikesh, where interior and landscape are drawn to hold each other, room by room.",
+            slideUrl: "Dang.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Rishikesh", "Landscape", "Quiet Luxury", "Materiality"],
+            slideImg: "assets/dang-1.jpg",
+          },
+          {
+            slideTitle: "Kailash Hills",
+            slideDescription:
+              "A refined Delhi residence balancing privacy and daylight, with interiors sequenced around a calm, garden-hugging heart.",
+            slideUrl: "Kailash.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Delhi", "Garden", "Light", "Privacy"],
+            slideImg: "assets/Kailashhero.jpg",
+          },
+          {
+            slideTitle: "Bella Vita",
+            slideDescription:
+              "An intimate two-bedroom villa in Jaipur, light on footprint and rich in texture, tuned to warm evenings and quiet mornings.",
+            slideUrl: "Bella.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Jaipur", "Texture", "Warmth", "Restorative"],
+            slideImg: "assets/bellahero.jpg",
+          },
+        ];
 
-        const slides = Array.from(document.querySelectorAll(".reel-slide"));
-        let current = 0;
-        let timer = null;
-        const DURATION = 7000;
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+        let isAnimating = false;
+        let scrollAllowed = true;
+        let lastScrollTime = 0;
 
-        function buildStrip() {
-          const strip = document.getElementById("strip");
-          strip.innerHTML = "";
-          slides.forEach((s, i) => {
-            const img = s.querySelector("img");
-            const th = document.createElement("button");
-            th.className = "reel-thumb" + (i === 0 ? " is-active" : "");
-            th.innerHTML = '<img src="' + img.getAttribute("src") + '" alt="" loading="lazy"/>' + '<span>' + String(i + 1).padStart(2, "0") + "</span>";
-            th.addEventListener("click", () => goTo(i, true));
-            strip.appendChild(th);
+        const slider = document.querySelector(".slider");
+
+        function createSlide(slideIndex) {
+          const slideData = slides[slideIndex - 1];
+          const slide = document.createElement("div");
+          slide.className = "slide";
+
+          const slideImg = document.createElement("div");
+          slideImg.className = "slide-img";
+          const img = document.createElement("img");
+          img.src = slideData.slideImg;
+          img.alt = slideData.slideTitle;
+          slideImg.appendChild(img);
+
+          const slideHeader = document.createElement("div");
+          slideHeader.className = "slide-header";
+
+          const slideTitle = document.createElement("div");
+          slideTitle.className = "slide-title";
+          const h1 = document.createElement("h1");
+          h1.textContent = slideData.slideTitle;
+          slideTitle.appendChild(h1);
+
+          if (slideData.slideScopeTag) {
+            const slideScope = document.createElement("div");
+            slideScope.className = "slide-scope-tag";
+            slideScope.textContent = slideData.slideScopeTag;
+            slideTitle.appendChild(slideScope);
+          }
+
+          const slideDescription = document.createElement("div");
+          slideDescription.className = "slide-description";
+          const p = document.createElement("p");
+          p.textContent = slideData.slideDescription;
+          slideDescription.appendChild(p);
+
+          const slideLink = document.createElement("div");
+          slideLink.className = "slide-link";
+          const a = document.createElement("a");
+          a.href = slideData.slideUrl;
+          a.textContent = "View Project";
+          slideLink.appendChild(a);
+
+          slideHeader.append(slideTitle, slideDescription, slideLink);
+
+          const slideInfo = document.createElement("div");
+          slideInfo.className = "slide-info";
+
+          const slideTags = document.createElement("div");
+          slideTags.className = "slide-tags";
+          const tagsLabel = document.createElement("p");
+          tagsLabel.textContent = "Tags";
+          slideTags.appendChild(tagsLabel);
+
+          slideData.slideTags.forEach((tag) => {
+            const tagP = document.createElement("p");
+            tagP.textContent = tag;
+            slideTags.appendChild(tagP);
           });
+
+          const slideIndexWrapper = document.createElement("div");
+          slideIndexWrapper.className = "slide-index-wrapper";
+          const slideIndexCopy = document.createElement("p");
+          slideIndexCopy.textContent = String(slideIndex).padStart(2, "0");
+          const slideIndexSeparator = document.createElement("p");
+          slideIndexSeparator.textContent = "/";
+          const slidesTotalCount = document.createElement("p");
+          slidesTotalCount.textContent = String(totalSlides).padStart(2, "0");
+
+          slideIndexWrapper.append(slideIndexCopy, slideIndexSeparator, slidesTotalCount);
+          slideInfo.append(slideTags, slideIndexWrapper);
+          slide.append(slideImg, slideHeader, slideInfo);
+          return slide;
         }
 
-        function goTo(i, manual = false) {
-          activate(i, manual);
-        }
-
-        function activate(i, manual) {
-          i = (i + slides.length) % slides.length;
-          const prev = slides[current];
-          const next = slides[i];
-          if (prev === next && manual) return;
-
-          current = i;
-
-          if (prev) {
-            const prevImg = prev.querySelector("img");
-            gsap.to(prevImg, { scale: 1.18, duration: 1.2, ease: "power2.out", overwrite: true });
-            prev.classList.remove("is-active");
-            prev.querySelectorAll(".reveal").forEach((el) => {
-              gsap.to(el, { opacity: 0, y: 26, duration: 0.22, ease: "power2.out", overwrite: true });
+        function splitText(slide) {
+          const slideHeader = slide.querySelector(".slide-title h1");
+          if (slideHeader && window.SplitText) {
+            SplitText.create(slideHeader, {
+              type: "words",
+              wordsClass: "word",
+              mask: "words",
             });
           }
 
-          if (next) {
-            next.classList.add("is-active");
-            const nextReveals = next.querySelectorAll(".reveal");
-            gsap.set(nextReveals, { opacity: 1, y: 0, clearProps: "transform,opacity" });
-            const nextImg = next.querySelector("img");
-            gsap.fromTo(nextImg, { scale: 1.4 }, { scale: 1.15, duration: 7.5, ease: "power1.out" });
-
-            const copy = next.querySelector(".reel-copy");
-            const tl = gsap.timeline({ delay: 0.08 });
-            tl.fromTo(copy.querySelector(".reel-index"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0)
-              .fromTo(copy.querySelector(".reel-title"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.8, ease: "power4.out" }, 0.04)
-              .fromTo(copy.querySelector(".reel-meta"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.18)
-              .fromTo(copy.querySelector(".reel-desc"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.3)
-              .fromTo(copy.querySelector(".reel-link"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.4);
-          }
-
-          document.querySelectorAll(".reel-thumb").forEach((th, idx) => th.classList.toggle("is-active", idx === current));
-
-          resetTimer();
+          const slideContent = slide.querySelectorAll("p, a");
+          slideContent.forEach((element) => {
+            if (window.SplitText) {
+              SplitText.create(element, {
+                type: "lines",
+                linesClass: "line",
+                mask: "lines",
+                reduceWhiteSpace: false,
+              });
+            }
+          });
         }
 
-        function next() { activate(current + 1, true); }
-        function prev() { activate(current - 1, true); }
-        function resetTimer() {
-          clearTimeout(timer);
-          timer = setTimeout(() => activate(current + 1, false), DURATION);
+        function animateSlide(direction) {
+          if (isAnimating || !scrollAllowed) return;
+          isAnimating = true;
+          scrollAllowed = false;
+
+          const currentSlideElement = slider.querySelector(".slide");
+
+          if (direction === "down") {
+            currentSlide = currentSlide === totalSlides ? 1 : currentSlide + 1;
+          } else {
+            currentSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
+          }
+
+          const exitY = direction === "down" ? "-200vh" : "200vh";
+          const entryY = direction === "down" ? "100vh" : "-100vh";
+          const entryClipPath =
+            direction === "down"
+              ? "polygon(20% 20%, 80% 20%, 80% 100%, 20% 100%)"
+              : "polygon(20% 0%, 80% 0%, 80% 80%, 20% 80%)";
+
+          gsap.to(currentSlideElement, {
+            scale: 0.25,
+            opacity: 0,
+            rotation: 30,
+            y: exitY,
+            duration: 2,
+            ease: "power4.inOut",
+            force3D: true,
+            onComplete: () => currentSlideElement.remove(),
+          });
+
+          setTimeout(() => {
+            const newSlide = createSlide(currentSlide);
+            gsap.set(newSlide, {
+              y: entryY,
+              clipPath: entryClipPath,
+              force3D: true,
+            });
+            slider.appendChild(newSlide);
+            splitText(newSlide);
+
+            const words = newSlide.querySelectorAll(".word");
+            const lines = newSlide.querySelectorAll(".line");
+            gsap.set([...words, ...lines], { y: "100%", force3D: true });
+
+            gsap.to(newSlide, {
+              y: 0,
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+              duration: 1.5,
+              ease: "power4.out",
+              force3D: true,
+              onStart: () => {
+                const tl = gsap.timeline();
+                tl.to(newSlide.querySelectorAll(".slide-title .word"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.1,
+                  force3D: true,
+                }, 0.75);
+
+                tl.to(newSlide.querySelectorAll(".slide-tags .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.1,
+                }, "-=0.75");
+
+                tl.to(newSlide.querySelectorAll(".slide-index-wrapper .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.1,
+                }, "<");
+
+                tl.to(newSlide.querySelectorAll(".slide-description .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.05,
+                }, "<");
+
+                tl.to(newSlide.querySelectorAll(".slide-link .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                }, "-=1");
+              },
+              onComplete: () => {
+                isAnimating = false;
+                setTimeout(() => {
+                  scrollAllowed = true;
+                  lastScrollTime = Date.now();
+                }, 100);
+              },
+            });
+          }, 750);
         }
 
-        document.getElementById("next").addEventListener("click", next);
-        document.getElementById("prev").addEventListener("click", prev);
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowRight") next();
-          if (e.key === "ArrowLeft") prev();
-        });
+        function handleScroll(direction) {
+          const now = Date.now();
+          if (isAnimating || !scrollAllowed) return;
+          if (now - lastScrollTime < 1000) return;
+          lastScrollTime = now;
+          animateSlide(direction);
+        }
 
-        // Pause auto-advance while hovering the stage
-        const reel = document.getElementById("reel");
-        reel.addEventListener("mouseenter", () => clearTimeout(timer));
-        reel.addEventListener("mouseleave", resetTimer);
+        function attachEvents() {
+          window.addEventListener(
+            "wheel",
+            (e) => {
+              e.preventDefault();
+              const direction = e.deltaY > 0 ? "down" : "up";
+              handleScroll(direction);
+            },
+            { passive: false }
+          );
 
-        buildStrip();
-        current = 0;
-        activate(0, true);
+          let touchStartY = 0;
+          let isTouchActive = false;
 
-        // Keep the reel self-contained and responsive without extra frame loops.
-        const toggler = document.querySelector(".nav-toggler");
-        const navContent = document.querySelector(".nav-content");
-        if (!toggler || !navContent) return;
-        toggler.addEventListener("click", () => {
-          const willOpen = !navContent.classList.contains("open");
-          toggler.classList.toggle("open");
-          navContent.classList.toggle("open");
-          if (willOpen) {
-            gsap.fromTo(".nav-primary-links a", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.06, ease: "power3.out", delay: 0.4 });
-            gsap.fromTo(".nav-socials a, .nav-legal a", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: "power3.out", delay: 0.55 });
+          window.addEventListener(
+            "touchstart",
+            (e) => {
+              touchStartY = e.touches[0].clientY;
+              isTouchActive = true;
+            },
+            { passive: false }
+          );
+
+          window.addEventListener(
+            "touchmove",
+            (e) => {
+              e.preventDefault();
+              if (!isTouchActive || isAnimating || !scrollAllowed) return;
+              const touchCurrentY = e.touches[0].clientY;
+              const difference = touchStartY - touchCurrentY;
+              if (Math.abs(difference) > 50) {
+                isTouchActive = false;
+                const direction = difference > 0 ? "down" : "up";
+                handleScroll(direction);
+              }
+            },
+            { passive: false }
+          );
+
+          window.addEventListener("touchend", () => {
+            isTouchActive = false;
+          });
+        }
+
+        function setupOverlayMenu() {
+          const toggler = document.querySelector(".nav-toggler");
+          const navContent = document.querySelector(".nav-content");
+
+          if (!toggler || !navContent) return;
+
+          let splitDone = false;
+
+          function ensureSplit() {
+            if (splitDone || !window.SplitText) return;
+
+            try {
+              SplitText.create(".nav-items a", { type: "lines", mask: "lines", linesClass: "line" });
+              splitDone = true;
+            } catch (e) {}
           }
-        });
+
+          toggler.addEventListener("click", function () {
+            const willOpen = !navContent.classList.contains("open");
+            toggler.classList.toggle("open");
+            navContent.classList.toggle("open");
+
+            if (willOpen) {
+              ensureSplit();
+
+              if (window.SplitText) {
+                gsap.fromTo(
+                  ".nav-items a .line",
+                  { y: "100%" },
+                  { y: "0%", duration: 0.7, stagger: 0.06, ease: "power3.out", delay: 0.55 }
+                );
+              }
+            }
+          });
+        }
+
+        const firstSlide = createSlide(currentSlide);
+        slider.appendChild(firstSlide);
+        splitText(firstSlide);
+        attachEvents();
+        setupOverlayMenu();
       });
     </script>
   </body>
