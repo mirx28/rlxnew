@@ -35,25 +35,29 @@ try {
   CustomEase.create("hop", "0.8, 0, 0.1, 1");
 
   const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
-  const lenis = new Lenis({
-    duration: isMobile ? 0.9 : 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: !isMobile,
-    smoothTouch: !isMobile,
-    touchMultiplier: isMobile ? 0.9 : 1.5,
-    wheelMultiplier: isMobile ? 0.8 : 1,
-    infinite: false,
-  });
 
-lenisInstance = lenis;
+  if (!isMobile) {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: true,
+      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
+      infinite: false,
+    });
 
-lenis.on("scroll", ScrollTrigger.update);
-// Pause Lenis while the tab is hidden so background/off-screen tabs
-// don't keep burning CPU every frame.
-requestAnimationFrame(function raf(time) {
-  if (!document.hidden) lenis.raf(time);
-  requestAnimationFrame(raf);
-});
+    lenisInstance = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+
+    requestAnimationFrame(function raf(time) {
+      if (!document.hidden) lenis.raf(time);
+      requestAnimationFrame(raf);
+    });
+  } else {
+    lenisInstance = null;
+    document.documentElement.style.scrollBehavior = 'auto';
+  }
 
 const ROTATING_WORDS = ["Architecture", "Interiors", "Master Planning", "Design consultancy", "Design Studio llp"];
 
@@ -397,7 +401,7 @@ function updateSlider() {
   }
 }
 
-const sliderSmoothing = isMobile ? 0.12 : settings.smoothness;
+const sliderSmoothing = isMobile ? 0.08 : settings.smoothness;
 
 function animateSlider() {
   requestAnimationFrame(animateSlider);
