@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — RLX Design Studio LLP</title>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: radial-gradient(circle at 50% 12%, rgba(233, 184, 127, 0.10), transparent 26%),
+                    linear-gradient(180deg, #0b0d11 0%, #0a0c0e 55%, #10131a 100%);
+        color: #fff;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::before {
+        background: radial-gradient(circle at 78% 8%, rgba(233,184,127,0.06), transparent 18%),
+                    radial-gradient(circle at 50% 85%, rgba(220,233,225,0.045), transparent 22%);
+        opacity: 0.9;
+        filter: blur(25px);
+      }
+
+      body::after {
+        background: repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 24px);
+        opacity: 0.18;
+        transform: scale(1.2);
+        animation: shimmerBg 20s linear infinite;
+      }
+
+      @keyframes shimmerBg {
+        0% { transform: translateX(0) scale(1.2); }
+        100% { transform: translateX(-30%) scale(1.2); }
+      }
+
+      /* ===== RLX Nav Bar ===== */
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+        will-change: transform;
+      }
+
+      .nav-logo,
+      .nav-toggler {
+        padding: 0.8rem;
+        cursor: pointer;
+      }
+
+      .nav-logo img {
+        width: 100px;
+        height: auto;
+        max-height: 40px;
+        display: block;
+      }
+
+      .nav-toggler {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-toggler span {
+        width: 40px;
+        height: 2px;
+        background-color: #dcdcdc;
+        transition: all 0.4s ease;
+      }
+
+      .nav-toggler.open span:first-child {
+        transform: translateY(3.5px) rotate(45deg) scaleX(0.75);
+      }
+
+      .nav-toggler.open span:nth-child(2) {
+        transform: translateY(-3.5px) rotate(-45deg) scaleX(0.75);
+      }
+
+      .nav-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        pointer-events: none;
+        z-index: 49;
+      }
+
+      .nav-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        transform: scaleY(0);
+        transform-origin: top;
+        will-change: transform;
+        pointer-events: none;
+      }
+
+      .nav-bg:nth-child(1) { background-color: rgba(255,255,255,0.08); }
+      .nav-bg:nth-child(2) { background-color: rgba(255,255,255,0.06); }
+      .nav-bg:nth-child(3) { background-color: rgba(255,255,255,0.045); }
+      .nav-bg:nth-child(4) { background-color: rgba(255,255,255,0.03); }
+
+      .nav-items {
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+        gap: 3.5rem;
+        padding: 6rem 6rem;
+        background-color: transparent;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+        will-change: clip-path;
+      }
+
+      .nav-content.open .nav-items {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255,255,255,0.14);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(26px);
+        -webkit-backdrop-filter: blur(26px);
+        border-radius: 3rem;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .nav-content.open .nav-items::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at top left, rgba(255,255,255,0.2), transparent 24%),
+                    radial-gradient(circle at bottom right, rgba(200, 238, 230, 0.12), transparent 30%);
+      }
+
+      .nav-items-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2rem;
+      }
+
+      .nav-items-sidebar {
+        max-width: 280px;
+      }
+
+      .nav-items-main {
+        justify-content: center;
+      }
+
+      .nav-items a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-socials,
+      .nav-legal {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-socials a { font-size: 1.15rem; }
+      .nav-secondary-links {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 1rem;
+        white-space: nowrap;
+      }
+
+      .nav-secondary-links a {
+        font-size: inherit;
+      }
+
+      .nav-secondary-links span {
+        opacity: 0.75;
+      }
+
+      .nav-legal a { font-size: 0.9rem; color: #7f8c89; }
+
+      .nav-primary-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .nav-links-group {
+        display: contents;
+      }
+
+      .nav-primary-links a {
+        font-size: clamp(2rem, 3.5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        padding: 0.1rem 0;
+        transition: transform 0.35s ease, color 0.25s ease;
+      }
+
+      .nav-primary-links a:hover,
+      .nav-primary-links a:focus {
+        transform: translateX(10px);
+        color: #e9b87f;
+      }
+
+      .nav-content a .line {
+        position: relative;
+        will-change: transform;
+        transform: translateY(100%);
+      }
+
+      @media (max-width: 1000px) {
+        .nav-content,
+        .nav-items {
+          height: 100vh;
+
+          height: 100dvh;
+        }
+
+        .nav-items {
+          grid-template-columns: 1fr;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 2rem;
+        }
+
+        .nav-legal {
+          display: none;
+        }
+
+        .nav-items-col:nth-child(1),
+        .nav-items-col:nth-child(2) { flex: none; }
+      }
+
+      /* ===== Contact Page Layout ===== */
+
+      .contact-container {
+        padding-top: 90px;
+        min-height: 100vh;
+      }
+
+      .marquee {
+        width: 100%;
+        overflow: hidden;
+        padding: 1.1rem 0 1.4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .marquee span {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-weight: 500;
+        color: #e9b87f;
+        font-size: clamp(3.5rem, 7vw, 6rem);
+        text-transform: uppercase;
+        display: inline-block;
+        white-space: nowrap;
+        animation: marquee-animation 28s linear infinite;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        text-shadow: 0 0 22px rgba(233, 184, 127, 0.16);
+      }
+
+      .marquee::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(15,15,15,0.92), rgba(15,15,15,0.15), rgba(15,15,15,0.92));
+        pointer-events: none;
+      }
+
+      @keyframes marquee-animation {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      .contact-section {
+        width: 100%;
+        display: flex;
+        gap: 2rem;
+        padding: 2rem 0 4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .col {
+        flex: 1;
+        padding: 1.5rem 1.75rem;
+      }
+
+      .contact-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 12% 22%, rgba(233,184,127,0.10), transparent 16%),
+                    radial-gradient(circle at 88% 78%, rgba(233,184,127,0.05), transparent 22%);
+        pointer-events: none;
+        filter: blur(14px);
+      }
+
+      .contact-details {
+        max-width: 680px;
+      }
+
+      .contact-tagline {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: clamp(2.5rem, 4.6vw, 3.6rem);
+        line-height: 1.1;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        text-transform: none;
+        color: #e9edf0;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-tagline strong {
+        color: #e9b87f;
+        font-weight: 600;
+      }
+
+      .social-media.item {
+        margin-top: 2rem;
+        padding: 1.8rem 1.6rem;
+        border-radius: 1.75rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(12px);
+      }
+
+      .social-media.item h3 {
+        margin-bottom: 0.85rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.78rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #e9b87f;
+        letter-spacing: 0.16em;
+      }
+
+      .social-media.item span {
+        color: #dce9e1;
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .contact-info {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        padding-top: 2rem;
+      }
+
+      .contact-info .item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.8rem 1.6rem;
+        border-radius: 1.75rem;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.16);
+        backdrop-filter: blur(16px);
+      }
+
+      .contact-info .item h3 {
+        margin-bottom: 0.8rem;
+        font-family: "DM Mono", monospace;
+        color: #e9b87f;
+        font-size: 0.78rem;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .contact-info .item span,
+      .contact-info .item p {
+        color: #dce9e1;
+        line-height: 1.8;
+        display: block;
+        font-size: 1rem;
+      }
+
+      .contact-info .item a {
+        color: #e9b87f;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 0.9rem;
+        transition: color 0.2s ease;
+      }
+
+      .contact-info .item a:hover {
+        color: #d4b98c;
+      }
+
+      .item {
+        padding: 0;
+      }
+
+      .address {
+        padding-left: 0;
+      }
+
+      .contact-form {
+        padding: 2rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 2rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.22);
+        backdrop-filter: blur(16px);
+      }
+
+      .contact-form .wrapper {
+        display: grid;
+        gap: 1rem;
+      }
+
+      input,
+      textarea#message {
+        width: 100%;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 1rem;
+        color: #fff;
+        font-family: "PP Neue Montreal", sans-serif;
+        font-size: 1rem;
+        padding: 1rem 1.1rem;
+        transition: border-color 0.25s ease, background 0.25s ease;
+      }
+
+      input:focus,
+      textarea#message:focus {
+        border-color: #e9b87f;
+        background: rgba(255,255,255,0.08);
+        outline: none;
+      }
+
+      input::placeholder,
+      textarea#message::placeholder {
+        color: #7f8c89;
+      }
+
+      .row {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .row input {
+        margin: 0;
+      }
+
+      .row textarea {
+        margin: 0;
+      }
+
+      textarea#message {
+        min-height: 210px;
+        resize: vertical;
+      }
+
+      .submit {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .submit a {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #14100a;
+        background: linear-gradient(135deg, #e9b87f, #d4b98c);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 1rem 1.8rem;
+        border-radius: 999px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+        box-shadow: 0 20px 40px rgba(233, 184, 127, 0.16);
+      }
+
+      .submit a:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.05);
+        box-shadow: 0 24px 50px rgba(233, 184, 127, 0.24);
+      }
+
+      .send-icon {
+        font-size: 1.5rem;
+        color: #e9b87f;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+
+      .submit:hover .send-icon {
+        transform: translateX(6px);
+      }
+
+      .send-icon ion-icon {
+        font-size: 1em;
+      }
+
+      @media (max-width: 900px) {
+        .contact-section {
+          flex-direction: column;
+        }
+
+        .col {
+          width: 100%;
+          padding: 1em 1.5em;
+        }
+
+        .contact-info {
+          grid-template-columns: 1fr;
+        }
+
+        .marquee span {
+          font-size: 4.4rem;
+        }
+
+        .contact-tagline {
+          font-size: 2.4rem;
+        }
+
+        .submit a,
+        .send-icon {
+          font-size: 1.2rem;
+        }
+
+        input,
+        textarea#message {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .row {
+          flex-direction: column;
+        }
+
+        .row input {
+          margin-right: 0;
+          margin-bottom: 0.5rem;
+        }
+
+        .marquee span {
+          font-size: 3rem;
+        }
+
+        .contact-tagline {
+          font-size: 1.9rem;
+        }
+      }
+    
+/* ========== RLX unified full-screen nav overlay ========== */
+.nav-content{
+  position: fixed !important;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+}
+.nav-content .nav-bg{
+  position: absolute;
+  inset: 0;
+  background: rgba(10,12,14,0.25);
+  transform: scaleY(0);
+  transform-origin: top;
+  pointer-events: none;
+  transition: transform 0.7s cubic-bezier(0.76,0,0.24,1);
+  will-change: transform;
+}
+.nav-content .nav-bg:last-child{
+  background:#000 0%, rgba(10,12,14,0.56) 100%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+}
+.nav-content.open .nav-bg{ transform: scaleY(1); }
+.nav-content .nav-items{
+  pointer-events: none;
+  clip-path: polygon(0 0,100% 0,100% 0,0 0);
+  will-change: clip-path;
+  transition: clip-path 0.55s ease 0.18s;
+}
+.nav-content.open .nav-items{
+  pointer-events: auto;
+  clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
+}
+.nav-content a .line{
+  position: relative;
+  will-change: transform;
+  transform: translateY(100%);
+}
+
+/* RLX: keep header above the nav overlay so the hamburger stays clickable */
+nav{ position: fixed; z-index: 80 !important; }
+.nav-toggler{ position: relative; z-index: 90 !important; }
+@media (min-width: 1001px){
+  .nav-content .nav-items{
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: minmax(220px,1fr) minmax(420px,2fr);
+    gap: 3.5rem;
+    padding: 6.5rem 6rem;
+  }
+}
+@media (max-width: 1000px){
+  .nav-content .nav-items{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 2rem;
+  }
+}
+
+  </style>
+  </head>
+  <body><style>body{background-color:#0a0a0c}</style>>
+
+<div id="rlxTransition" aria-hidden="true"><span class="rlx-brand"><img src="rlx-logo.webp" alt="RLX" /></span></div>
+<style>
+#rlxTransition{position:fixed;inset:0;z-index:2000;pointer-events:none;background:#000;display:flex;align-items:center;justify-content:center;clip-path:inset(0 0 100% 0);}
+
+#rlxTransition .rlx-brand{opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;position:relative;}
+#rlxTransition .rlx-brand img{height:clamp(2rem,6vw,4.6rem);width:auto;display:block;max-width:72vw;}
+#rlxTransition.rlx-shown .rlx-brand{opacity:1;transform:none;}
+</style>
+<script>
+(function(){
+  var t=document.getElementById('rlxTransition'); if(!t) return;
+  function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+  var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+  var arrived=sessionStorage.getItem('rlxNav')==='1';
+  window.__rlxSkipIntro = arrived || isBack;
+  if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+  if(arrived){
+    sessionStorage.removeItem('rlxNav');
+    t.style.transition='none';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    var revealed=false;
+    function doReveal(){ if(revealed) return; revealed=true;
+      requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); });
+    }
+    if(document.readyState!=='loading'){ doReveal(); }
+    else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+    setTimeout(doReveal,1400);
+  }
+  window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+  document.addEventListener('click', function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var href=a.getAttribute('href'); if(!internal(href))return;
+    var dest=new URL(href,location.href).href; if(dest===location.href)return;
+    e.preventDefault();
+    sessionStorage.setItem('rlxNav','1');
+    t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    setTimeout(function(){ location.href=href; },500);
+  });
+})();
+</script>
+
+    <!-- ===== RLX Nav Bar ===== -->
+    <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/company/rlx-design-studio/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Contact Page Layout ===== -->
+    <div class="contact-container">
+      <div class="marquee">
+        <span>
+          contact us / RLX / contact us / RLX / contact us /
+          contact us / RLX / contact us / RLX / contact us
+        </span>
+      </div>
+
+      <div class="contact-section">
+        <div class="contact-details col">
+          <p class="contact-tagline">
+            Whether you're envisioning a private residence, commercial development,
+            or transformative space, let's connect and build something memorable.
+          </p>
+
+          <div class="social-media item">
+            <h3>Connect with us</h3>
+            <span>
+              Share inspiration, press enquiries, or project briefs.
+              <br />Instagram / LinkedIn
+            </span>
+          </div>
+
+          <div class="contact-info">
+            <div class="email item">
+              <h3>Email</h3>
+              <p>Studio inbox for design enquiries and collaboration requests.</p>
+              <a href="mailto:designstudio.rlx@gmail.com">designstudio.rlx@gmail.com</a>
+            </div>
+            <div class="address item">
+              <h3>Telephone</h3>
+              <p>Speak directly with our team to discuss scope, timings, and availability.</p>
+              <a href="tel:+918989270960">+91 89892 70960</a>
+              <a href="tel:+917895576394">+91 78955 76394</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form col">
+          <div class="wrapper">
+            <div class="row">
+              <input class="form-field" type="text" placeholder="Name" />
+              <input class="form-field" type="text" placeholder="Company" />
+            </div>
+            <div class="row">
+              <input class="form-field" type="email" placeholder="Email" />
+              <input class="form-field" type="text" placeholder="Budget" />
+            </div>
+            <div class="row">
+              <textarea class="form-field" placeholder="Message" rows="5" id="message"></textarea>
+            </div>
+            <div class="row submit">
+              <a href="#">Send enquiry</a>
+              <div class="send-icon">
+                <ion-icon name="arrow-forward-sharp"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== Overlay menu behavior =====
+      (() => {
+        const navToggler = document.querySelector('.nav-toggler');
+        const navContent = document.querySelector('.nav-content');
+        if (!navToggler || !navContent) return;
+
+        let splitDone = false;
+        function ensureSplit() {
+          if (splitDone || !window.SplitText) return;
+          try {
+            SplitText.create('.nav-items a', { type: 'lines', mask: 'lines', linesClass: 'line' });
+            splitDone = true;
+          } catch (e) {}
+        }
+
+        navToggler.addEventListener('click', () => {
+          const willOpen = !navContent.classList.contains('open');
+          navToggler.classList.toggle('open');
+          navContent.classList.toggle('open');
+          if (willOpen) {
+            ensureSplit();
+            if (window.SplitText) {
+              gsap.fromTo(
+                '.nav-items a .line',
+                { y: '100%' },
+                { y: '0%', duration: 0.7, stagger: 0.06, ease: 'power3.out', delay: 0.55 }
+              );
+            }
+          }
+        });
+      })();
+    </script>
+  
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+  var lenis = new Lenis({ duration:1.2, easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));}, smoothTouch:true, touchMultiplier:1.5 });
+  function raf(time){ if(!document.hidden) lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  if (window.ScrollTrigger) lenis.on("scroll", ScrollTrigger.update);
+});
+</script>
+</body>
+</html>

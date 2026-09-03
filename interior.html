@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interior | RLX Design Studio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-family: "DM Sans", sans-serif;
+        background: #000;
+      }
+
+      body {
+        min-height: 100vh;
+        overflow: hidden;
+        color: #fff;
+        background: radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 28%),
+          radial-gradient(circle at bottom, rgba(255,255,255,0.09), transparent 18%),
+          #040506;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 1.5rem 1.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        border: none;
+        gap: 0.5rem;
+      }
+
+      .nav-logo,
+      .nav-toggler {
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .nav-logo img {
+        width: auto;
+        height: 28px;
+        display: block;
+      }
+
+      .nav-toggler {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .nav-toggler span {
+        width: 30px;
+        height: 2px;
+        background-color: rgba(255,255,255,0.92);
+        transition: transform 0.4s ease, opacity 0.4s ease;
+      }
+
+      .nav-toggler.open span:first-child {
+        transform: translateY(3.5px) rotate(45deg) scaleX(0.75);
+      }
+
+      .nav-toggler.open span:nth-child(2) {
+        transform: translateY(-3.5px) rotate(-45deg) scaleX(0.75);
+      }
+
+      .nav-content {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 19;
+      }
+
+      .nav-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        transform: scaleY(0);
+        transform-origin: top;
+        will-change: transform;
+        pointer-events: none;
+        background: rgba(10,12,14,0.25);
+      }
+
+      .nav-content.open .nav-bg {
+        transform: scaleY(1);
+      }
+
+      .nav-content .nav-bg.bg-solid {
+        background:#000, rgba(10,12,14,0.78));
+        -webkit-backdrop-filter: blur(24px);
+        backdrop-filter: blur(24px);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
+
+      .nav-items {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+        gap: 3.5rem;
+        padding: 6rem 6rem;
+        background: transparent;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+        will-change: clip-path;
+      }
+
+      .nav-content.open .nav-items {
+        pointer-events: auto;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+
+      .nav-items-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2rem;
+      }
+
+      .nav-items-sidebar {
+        max-width: 280px;
+      }
+
+      .nav-items-main {
+        justify-content: center;
+      }
+
+      .nav-socials,
+      .nav-legal {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .nav-socials a,
+      .nav-secondary-links,
+      .nav-legal a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+      }
+
+      .nav-primary-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .nav-links-group {
+        display: contents;
+      }
+
+      .nav-primary-links a {
+        font-size: clamp(2rem, 3.5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #fff;
+        display: block;
+        padding: 0.1rem 0;
+      }
+
+      .slider {
+        position: relative;
+        width: 100vw;
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      .slide,
+      .slide-img {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100svh;
+      }
+
+      .slide {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+      }
+
+      .slide-img {
+        z-index: 0;
+      }
+
+      .slide-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:#000, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.82));
+        pointer-events: none;
+      }
+
+      .slide-header {
+        position: absolute;
+        inset: auto 0 13rem 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 0 5vw;
+        gap: 1.25rem;
+      }
+
+      .slide-title h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3.5rem, 6vw, 7rem);
+        font-weight: 600;
+        letter-spacing: -0.08rem;
+        line-height: 0.95;
+      }
+
+      .slide-scope-tag {
+        margin-top: 0.85rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1rem;
+        font-style: italic;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.92;
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .slide-description {
+        max-width: 42rem;
+        font-size: 1.05rem;
+        line-height: 1.9;
+        opacity: 0.92;
+        letter-spacing: 0.02em;
+      }
+
+      .slide-link {
+        margin-top: 0.5rem;
+      }
+
+      .slide-link a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.35rem;
+        border-radius: 0.8rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.95);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .slide-link a:hover {
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.18);
+      }
+
+      .slide-info {
+        position: absolute;
+        left: 0;
+        bottom: 2.5rem;
+        width: 100%;
+        padding: 0 5vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        z-index: 2;
+      }
+
+      .slide-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        opacity: 0.92;
+        text-transform: uppercase;
+      }
+
+      .slide-tags p:first-child {
+        opacity: 0.55;
+        margin-right: 0.75rem;
+      }
+
+      .slide-index-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.9rem;
+        letter-spacing: 0.22em;
+        opacity: 0.95;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          flex-wrap: wrap;
+          padding: 1rem;
+        }
+
+        .slide-header {
+          inset: auto 0 12rem 0;
+          padding: 0 3rem;
+        }
+
+        .slide-description {
+          max-width: 100%;
+          font-size: 0.9rem;
+        }
+
+        .slide-info {
+          padding: 0 3rem;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 650px) {
+        nav {
+          padding: 0.9rem 1rem;
+        }
+
+        .slide-header {
+          inset: auto 0 10rem 0;
+          padding: 0 2rem;
+        }
+
+        .slide-title h1 {
+          font-size: clamp(2.25rem, 10vw, 3.5rem);
+        }
+
+        .slide-description {
+          font-size: 0.8rem;
+        }
+
+        .slide-info {
+          padding: 0 2rem;
+        }
+      }
+
+      .nav-content {
+        position: fixed !important;
+        inset: 0;
+        pointer-events: none;
+        z-index: 70;
+      }
+
+      .nav-content .nav-bg {
+        position: absolute;
+        inset: 0;
+        background: rgba(10,12,14,0.25);
+        transform: scaleY(0);
+        transform-origin: top;
+        pointer-events: none;
+        transition: transform 0.7s cubic-bezier(0.76,0,0.24,1);
+        will-change: transform;
+      }
+
+      .nav-content .nav-bg.bg-solid {
+        background:#000, rgba(10,12,14,0.78));
+        -webkit-backdrop-filter: blur(24px);
+        backdrop-filter: blur(24px);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
+
+      .nav-content.open .nav-bg {
+        transform: scaleY(1);
+      }
+
+      .nav-content .nav-items {
+        pointer-events: none;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        will-change: clip-path;
+        transition: clip-path 0.55s ease 0.18s;
+      }
+
+      .nav-content.open .nav-items {
+        pointer-events: auto;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        overflow: visible !important;
+      }
+
+      nav {
+        position: fixed;
+        z-index: 80 !important;
+      }
+
+      .nav-toggler {
+        position: relative;
+        z-index: 90 !important;
+      }
+
+      @media (min-width: 1001px) {
+        .nav-content .nav-items {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+          gap: 3.5rem;
+          padding: 6.5rem 6rem;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .nav-content .nav-items {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 5rem 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rlxTransition" aria-hidden="true"><span class="rlx-brand"><img src="rlx-logo.webp" alt="RLX" /></span></div>
+    <style>
+      #rlxTransition {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        pointer-events: none;
+        background:#000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        clip-path: inset(0 0 100% 0);
+      }
+
+      
+
+      #rlxTransition .rlx-brand{opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;position:relative;}
+#rlxTransition .rlx-brand img{height:clamp(2rem,6vw,4.6rem);width:auto;display:block;max-width:72vw;}
+
+      #rlxTransition.rlx-shown .rlx-brand {
+        opacity: 1;
+        transform: none;
+      }
+    </style>
+    <script>
+      (function(){
+        var t=document.getElementById('rlxTransition'); if(!t) return;
+        function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+        var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+        var arrived=sessionStorage.getItem('rlxNav')==='1';
+        window.__rlxSkipIntro = arrived || isBack;
+        if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+        if(arrived){
+          sessionStorage.removeItem('rlxNav');
+          t.style.transition='none';
+          t.style.clipPath='inset(0 0 0 0)';
+          t.classList.add('rlx-shown');
+          var revealed=false;
+          function doReveal(){ if(revealed) return; revealed=true;
+            requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); });
+          }
+          if(document.readyState!=='loading'){ doReveal(); }
+          else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+          setTimeout(doReveal,1400);
+        }
+        window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+        document.addEventListener('click', function(e){
+          var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+          if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+          var href=a.getAttribute('href'); if(!internal(href))return;
+          var dest=new URL(href,location.href).href; if(dest===location.href)return;
+          e.preventDefault();
+          sessionStorage.setItem('rlxNav','1');
+          t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)';
+          t.style.clipPath='inset(0 0 0 0)';
+          t.classList.add('rlx-shown');
+          setTimeout(function(){ location.href=href; },500);
+        });
+      })();
+    </script>
+
+        <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/company/rlx-design-studio/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider"></div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const slides = [
+          {
+            slideTitle: "Recreational Party Hall Interiors",
+            slideDescription:
+              "A warm, expressive leisure space designed for memorable social gatherings and immersive visual comfort.",
+            slideUrl: "recreational.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Project", "Recreation", "Events", "Gathering"],
+            slideImg: "assets/recreational.jpg",
+          },
+          {
+            slideTitle: "4BHK Duplex Penthouse Interiors",
+            slideDescription:
+              "A layered penthouse concept balancing panoramic views, warm textures, and refined contemporary living.",
+            slideUrl: "duplex.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Penthouse", "Luxury", "Views", "Contemporary"],
+            slideImg: "assets/duplexhero.jpg",
+          },
+          {
+            slideTitle: "2.5 BHK Interiors",
+            slideDescription:
+              "A compact yet generous home experience shaped by soft contrast, practical planning, and tactile elegance.",
+            slideUrl: "2.5bhk.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Apartment", "Modern", "Calm", "Craft"],
+            slideImg: "assets/2.5bhkhero.jpg",
+          },
+          {
+            slideTitle: "Office Interiors",
+            slideDescription:
+              "A focused workplace interior designed for clarity, collaboration, and a polished professional atmosphere.",
+            slideUrl: "office.html",
+            slideScopeTag: "[Architecture + Interiors]",
+            slideTags: ["Workspace", "Professional", "Focus", "Function"],
+            slideImg: "assets/officehero.jpg",
+          },
+        ];
+
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+        let isAnimating = false;
+        let scrollAllowed = true;
+        let lastScrollTime = 0;
+
+        const slider = document.querySelector(".slider");
+
+        function createSlide(slideIndex) {
+          const slideData = slides[slideIndex - 1];
+          const slide = document.createElement("div");
+          slide.className = "slide";
+
+          const slideImg = document.createElement("div");
+          slideImg.className = "slide-img";
+          const img = document.createElement("img");
+          img.src = slideData.slideImg;
+          img.alt = slideData.slideTitle;
+          slideImg.appendChild(img);
+
+          const slideHeader = document.createElement("div");
+          slideHeader.className = "slide-header";
+
+          const slideTitle = document.createElement("div");
+          slideTitle.className = "slide-title";
+          const h1 = document.createElement("h1");
+          h1.textContent = slideData.slideTitle;
+          slideTitle.appendChild(h1);
+
+          if (slideData.slideScopeTag) {
+            const slideScope = document.createElement("div");
+            slideScope.className = "slide-scope-tag";
+            slideScope.textContent = slideData.slideScopeTag;
+            slideTitle.appendChild(slideScope);
+          }
+
+          const slideDescription = document.createElement("div");
+          slideDescription.className = "slide-description";
+          const p = document.createElement("p");
+          p.textContent = slideData.slideDescription;
+          slideDescription.appendChild(p);
+
+          const slideLink = document.createElement("div");
+          slideLink.className = "slide-link";
+          const a = document.createElement("a");
+          a.href = slideData.slideUrl;
+          a.textContent = "View Project";
+          slideLink.appendChild(a);
+
+          slideHeader.append(slideTitle, slideDescription, slideLink);
+
+          const slideInfo = document.createElement("div");
+          slideInfo.className = "slide-info";
+
+          const slideTags = document.createElement("div");
+          slideTags.className = "slide-tags";
+          const tagsLabel = document.createElement("p");
+          tagsLabel.textContent = "Project";
+          slideTags.appendChild(tagsLabel);
+
+          slideData.slideTags.forEach((tag) => {
+            const tagP = document.createElement("p");
+            tagP.textContent = tag;
+            slideTags.appendChild(tagP);
+          });
+
+          const slideIndexWrapper = document.createElement("div");
+          slideIndexWrapper.className = "slide-index-wrapper";
+          const slideIndexCopy = document.createElement("p");
+          slideIndexCopy.textContent = String(slideIndex).padStart(2, "0");
+          const slideIndexSeparator = document.createElement("p");
+          slideIndexSeparator.textContent = "/";
+          const slidesTotalCount = document.createElement("p");
+          slidesTotalCount.textContent = String(totalSlides).padStart(2, "0");
+
+          slideIndexWrapper.append(slideIndexCopy, slideIndexSeparator, slidesTotalCount);
+          slideInfo.append(slideTags, slideIndexWrapper);
+          slide.append(slideImg, slideHeader, slideInfo);
+          return slide;
+        }
+
+        function splitText(slide) {
+          const slideHeader = slide.querySelector(".slide-title h1");
+          if (slideHeader && window.SplitText) {
+            SplitText.create(slideHeader, {
+              type: "words",
+              wordsClass: "word",
+              mask: "words",
+            });
+          }
+
+          const slideContent = slide.querySelectorAll("p, a");
+          slideContent.forEach((element) => {
+            if (window.SplitText) {
+              SplitText.create(element, {
+                type: "lines",
+                linesClass: "line",
+                mask: "lines",
+                reduceWhiteSpace: false,
+              });
+            }
+          });
+        }
+
+        function animateSlide(direction) {
+          if (isAnimating || !scrollAllowed) return;
+          isAnimating = true;
+          scrollAllowed = false;
+
+          const currentSlideElement = slider.querySelector(".slide");
+
+          if (direction === "down") {
+            currentSlide = currentSlide === totalSlides ? 1 : currentSlide + 1;
+          } else {
+            currentSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
+          }
+
+          const exitY = direction === "down" ? "-200vh" : "200vh";
+          const entryY = direction === "down" ? "100vh" : "-100vh";
+          const entryClipPath =
+            direction === "down"
+              ? "polygon(20% 20%, 80% 20%, 80% 100%, 20% 100%)"
+              : "polygon(20% 0%, 80% 0%, 80% 80%, 20% 80%)";
+
+          gsap.to(currentSlideElement, {
+            scale: 0.9,
+            opacity: 0,
+            rotation: 12,
+            y: exitY,
+            duration: 1.0,
+            ease: "power4.inOut",
+            force3D: true,
+            onComplete: () => currentSlideElement.remove(),
+          });
+
+          setTimeout(() => {
+            const newSlide = createSlide(currentSlide);
+            gsap.set(newSlide, {
+              y: entryY,
+              clipPath: entryClipPath,
+              force3D: true,
+            });
+            slider.appendChild(newSlide);
+            splitText(newSlide);
+
+            const words = newSlide.querySelectorAll(".word");
+            const lines = newSlide.querySelectorAll(".line");
+            gsap.set([...words, ...lines], { y: "100%", force3D: true });
+
+            gsap.to(newSlide, {
+              y: 0,
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+              duration: 1.0,
+              ease: "power4.out",
+              force3D: true,
+              onStart: () => {
+                const tl = gsap.timeline();
+                tl.to(newSlide.querySelectorAll(".slide-title .word"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.1,
+                  force3D: true,
+                }, 0.75);
+
+                tl.to(newSlide.querySelectorAll(".slide-tags .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.08,
+                }, "-=0.75");
+
+                tl.to(newSlide.querySelectorAll(".slide-index-wrapper .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.08,
+                }, "<");
+
+                tl.to(newSlide.querySelectorAll(".slide-description .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                  stagger: 0.05,
+                }, "<");
+
+                tl.to(newSlide.querySelectorAll(".slide-link .line"), {
+                  y: "0%",
+                  duration: 1,
+                  ease: "power4.out",
+                }, "-=1");
+              },
+              onComplete: () => {
+                isAnimating = false;
+                setTimeout(() => {
+                  scrollAllowed = true;
+                  lastScrollTime = Date.now();
+                }, 100);
+              },
+            });
+          }, 380);
+        }
+
+        function handleScroll(direction) {
+          const now = Date.now();
+          if (isAnimating || !scrollAllowed) return;
+          if (now - lastScrollTime < 470) return;
+          lastScrollTime = now;
+          animateSlide(direction);
+        }
+
+        function attachEvents() {
+          window.addEventListener(
+            "wheel",
+            (e) => {
+              e.preventDefault();
+              const direction = e.deltaY > 0 ? "down" : "up";
+              handleScroll(direction);
+            },
+            { passive: false }
+          );
+
+          let touchStartY = 0;
+          let isTouchActive = false;
+
+          window.addEventListener(
+            "touchstart",
+            (e) => {
+              touchStartY = e.touches[0].clientY;
+              isTouchActive = true;
+            },
+            { passive: false }
+          );
+
+          window.addEventListener(
+            "touchmove",
+            (e) => {
+              e.preventDefault();
+              if (!isTouchActive || isAnimating || !scrollAllowed) return;
+              const touchCurrentY = e.touches[0].clientY;
+              const difference = touchStartY - touchCurrentY;
+              if (Math.abs(difference) > 50) {
+                isTouchActive = false;
+                const direction = difference > 0 ? "down" : "up";
+                handleScroll(direction);
+              }
+            },
+            { passive: false }
+          );
+
+          window.addEventListener("touchend", () => {
+            isTouchActive = false;
+          });
+        }
+
+        function setupOverlayMenu() {
+          const toggler = document.querySelector(".nav-toggler");
+          const navContent = document.querySelector(".nav-content");
+
+          if (!toggler || !navContent) return;
+
+          let splitDone = false;
+
+          function ensureSplit() {
+            if (splitDone || !window.SplitText) return;
+
+            try {
+              SplitText.create(".nav-items a", { type: "lines", mask: "lines", linesClass: "line" });
+              splitDone = true;
+            } catch (e) {}
+          }
+
+          toggler.addEventListener("click", function () {
+            const willOpen = !navContent.classList.contains("open");
+            toggler.classList.toggle("open");
+            navContent.classList.toggle("open");
+
+            if (willOpen) {
+              ensureSplit();
+
+              if (window.SplitText) {
+                gsap.fromTo(
+                  ".nav-items a .line",
+                  { y: "100%" },
+                  { y: "0%", duration: 0.7, stagger: 0.06, ease: "power3.out", delay: 0.55 }
+                );
+              }
+            }
+          });
+        }
+
+        const firstSlide = createSlide(currentSlide);
+        slider.appendChild(firstSlide);
+        splitText(firstSlide);
+        attachEvents();
+        setupOverlayMenu();
+      });
+    </script>
+  </body>
+</html>

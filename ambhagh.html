@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aambagh Villa Plots | RLX Design Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; overflow-x: clip; }
+      body {
+        width: 100%; min-height: 100vh;
+        font-family: "DM Sans", sans-serif;
+        background: #0a0a0c; color: #fff;
+        overflow-x: clip; -webkit-text-size-adjust: 100%;
+      }
+      img:not(.nav-logo img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+      a { color: inherit; text-decoration: none; }
+
+            /* ===== Standard RLX nav ===== */
+      nav{position:fixed;top:0;left:0;width:100vw;padding:1.5rem 2rem 0;display:flex;justify-content:space-between;align-items:center;z-index:80;}
+      .nav-logo img{width:auto;height:32px;object-fit:contain;display:block;}
+      .nav-toggler{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;background:transparent;border:none;padding:0;cursor:pointer;position:relative;z-index:90!important;border-radius:0;appearance:none;-webkit-appearance:none;}
+      .nav-toggler span{width:32px;height:2px;background:rgba(255,255,255,.92);transition:transform .4s ease,opacity .4s ease;}
+      .nav-toggler.open span:first-child{transform:translateY(4px) rotate(45deg);}
+      .nav-toggler.open span:nth-child(2){transform:translateY(-4px) rotate(-45deg);}
+      .nav-content{position:fixed!important;inset:0;pointer-events:none;z-index:70;}
+      .nav-content .nav-bg{position:absolute;inset:0;background:rgba(10,12,14,.25);transform:scaleY(0);transform-origin:top;pointer-events:none;transition:transform .7s cubic-bezier(.76,0,.24,1);will-change:transform;}
+      .nav-content .nav-bg.bg-solid{background:linear-gradient(180deg,rgba(10,12,14,.94),rgba(10,12,14,.78));-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 40px 120px rgba(0,0,0,.6);}
+      @media(max-width:900px){.nav-content .nav-bg.bg-solid{background:#07080c;}}
+      .nav-content.open .nav-bg{transform:scaleY(1);}
+      .nav-content .nav-items{pointer-events:none;clip-path:polygon(0 0,100% 0,100% 0,0 0);will-change:clip-path;transition:clip-path .55s ease .18s;}
+      .nav-content.open .nav-items{pointer-events:auto;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);background:transparent!important;border:none!important;box-shadow:none!important;overflow:visible!important;}
+      .nav-content a .line{position:relative;will-change:transform;transform:translateY(100%);}
+      .nav-items{position:absolute;inset:0;display:grid;grid-template-columns:minmax(220px,1fr) minmax(420px,2fr);gap:3.5rem;padding:6.5rem 6rem;}
+      .nav-items-col{display:flex;flex-direction:column;justify-content:flex-start;gap:2rem;}
+      .nav-items-sidebar{max-width:280px;}
+      .nav-items a{color:#fff;display:block;line-height:1.2;}
+      .nav-socials,.nav-legal{display:flex;flex-direction:column;gap:.85rem;}
+      .nav-socials a,.nav-secondary-links{font-size:.95rem;}
+      .nav-secondary-links{display:inline-flex;align-items:center;gap:.25rem;}
+      .nav-legal a{font-size:.9rem;color:#b0b0b0;}
+      .nav-primary-links{display:flex;flex-direction:column;gap:1.25rem;}
+      .nav-links-group{display:contents;}
+      .nav-primary-links a{font-size:clamp(2rem,3vw,4rem);font-weight:700;letter-spacing:-.03em;color:#fff;}
+      .nav-primary-links a:hover{color:#d9d9d9;}
+      @media(max-width:900px){.nav-items{display:flex;flex-direction:column;justify-content:flex-start;gap:1.4rem;padding:4.5rem 1.75rem 2.5rem;overflow-y:auto;-webkit-overflow-scrolling:touch;}.nav-items-col{gap:.8rem;}.nav-primary-links{gap:.9rem;}.nav-primary-links a{font-size:clamp(1.6rem,6.4vw,2.2rem);}nav{padding:1rem 1.25rem 0;}}
+
+/* ===== RLX transition (white) ===== */
+#rlxTransition{position:fixed;inset:0;z-index:2000;pointer-events:none;background:linear-gradient(180deg,#0b0d11,#0a0c0e 55%,#10131a);display:flex;align-items:center;justify-content:center;clip-path:inset(0 0 100% 0);}
+#rlxTransition::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.06),transparent 55%);}
+#rlxTransition .rlx-brand{width:auto;height:clamp(2.5rem,9vw,7rem);object-fit:contain;display:block;opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;position:relative;}
+#rlxTransition.rlx-shown .rlx-brand{opacity:1;transform:none;}
+
+/* ===== Hero (the masterplan) ===== */
+      .hero { position: relative; width: 100vw; height: 100dvh; overflow: hidden; }
+      .hero-img { position: absolute; inset: 0; }
+      .hero-img img { transform: scale(1.06); animation: settle 1.4s cubic-bezier(.2,.7,.2,1) forwards; }
+      @keyframes settle { from { transform: scale(1.14); } to { transform: scale(1.06); } }
+      .hero-veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,12,.42), rgba(10,10,12,.12) 42%, rgba(10,10,12,.8)); }
+      .hero-copy {
+        position: absolute; left: 0; bottom: 14vh; z-index: 3;
+        width: min(640px, 72vw); padding: 2.6rem 5vw 2.2rem 5vw;
+        background: linear-gradient(90deg, #0d0d10, #0d0d10 30%, rgba(13,13,16,.88) 70%, rgba(13,13,16,.62));
+      }
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .28em;
+        text-transform: uppercase; color: #e9b87f; margin-bottom: 1rem;
+      }
+      .hero-title { font-family: "Cormorant Garamond", serif; font-size: clamp(2.6rem, 7vw, 5.5rem); font-weight: 500; letter-spacing: -.02em; line-height: .96; color: #fff; }
+      .hero-sub { margin-top: 1.1rem; max-width: 520px; font-size: 18px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.82); }
+
+      /* ===== Description ===== */
+      .brief { position: relative; padding: 6.5rem 5vw 7rem; background: #0a0a0c; }
+      .brief-inner { max-width: 1000px; margin: 0 auto; }
+      .brief-eyebrow {
+        font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .28em;
+        text-transform: uppercase; color: #e9b87f; margin-bottom: 1.2rem;
+      }
+      .brief-heading { font-family: "Cormorant Garamond", serif; font-size: clamp(2rem, 4.6vw, 3.4rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.02; max-width: 22ch; margin-bottom: 2.6rem; }
+      .brief-heading em { font-style: italic; font-weight: 400; color: #e9b87f; }
+      .brief-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; padding-bottom: 2.6rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+      .brief-meta .k { font-family: "DM Mono", monospace; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: .5rem; }
+      .brief-meta .v { font-family: "Cormorant Garamond", serif; font-size: 1.35rem; color: #fff; line-height: 1.15; }
+      .brief-para { margin-top: 2.2rem; max-width: 64ch; font-size: 18px; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.8); }
+      .brief-divider { height: 1px; background: rgba(255,255,255,.1); margin: 3rem 0; }
+      .brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .brief-label { font-family: "DM Mono", monospace; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: .8rem; }
+      .brief-approach { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; line-height: 1.3; color: #fff; }
+      .amenity-list { display: flex; flex-wrap: wrap; gap: .6rem; }
+      .amenity-chip { font-family: "DM Mono", monospace; font-size: .68rem; letter-spacing: .1em; color: #e9b87f; border: 1px solid rgba(233,184,127,.4); border-radius: 999px; padding: .45rem .9rem; }
+
+      /* ===== Footer ===== */
+      footer { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 1.6rem 5vw; border-top: 1px solid rgba(255,255,255,.1); font-family: "DM Mono", monospace; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+      footer a { color: #e9b87f; }
+
+      .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+      .reveal.in { opacity: 1; transform: none; }
+
+      @media (max-width: 700px) {
+        nav { padding: 1.25rem 1.25rem 0; }
+        .hero-copy { width: 100%; padding: 2.4rem 1.25rem; bottom: 12vh; background: linear-gradient(90deg, #0d0d10, #0d0d10 62%, rgba(13,13,16,.88) 82%, rgba(13,13,16,.7)); }
+        .hero-sub { font-size: 16px; }
+        .brief { padding: 4.5rem 1.25rem 5rem; }
+        .brief-meta { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .brief-grid { grid-template-columns: 1fr; }
+        footer { flex-direction: column; gap: .8rem; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rlxTransition" aria-hidden="true"><img class="rlx-brand" src="logo.png" alt="RLX" /></div>
+
+    <nav>
+<div class="nav-logo"><a href="index.html"><img src="rlx-logo.webp" alt="RLX logo" loading="lazy" /></a></div>
+<button class="nav-toggler" aria-label="Toggle menu"><span></span><span></span></button>
+</nav>
+<div class="nav-content">
+<div class="nav-bg"></div><div class="nav-bg"></div><div class="nav-bg"></div><div class="nav-bg bg-solid"></div>
+<div class="nav-items">
+<div class="nav-items-col nav-items-sidebar">
+<div class="nav-socials">
+<a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+<a href="#">LinkedIn</a>
+<div class="nav-secondary-links"><a href="contact.html">Contact&Careers</a></div>
+</div>
+<div class="nav-legal"><a href="#">Cookie Policy</a><a href="#">Accessibility</a><a href="#">Data Rights</a><a href="#">Disclosures</a></div>
+</div>
+<div class="nav-items-col nav-items-main">
+<div class="nav-primary-links">
+<div class="nav-links-group">
+<a href="index.html">Home</a><a href="hospitality.html">Hospitality</a><a href="residential.html">Residential</a><a href="interior.html">Interior Design Consultancy</a>
+</div>
+<div class="nav-links-group">
+<a href="masterplanning.html">Master Planning</a><a href="about-us.html">About us</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<section class="hero">
+      <div class="hero-img"><img src="assets/ambhagh-master.webp" alt="Aambagh Villa Plots masterplan" fetchpriority="high" /></div>
+      <div class="hero-veil"></div>
+      <div class="hero-copy">
+        <div class="hero-eyebrow">Residential Plotting + Villa</div>
+        <h1 class="hero-title">Aambagh<br />Villa Plots</h1>
+        <p class="hero-sub">A plotted villa community in Aambagh, Rishikesh &mdash; fourteen parcels, each paired with a villa typology.</p>
+      </div>
+    </section>
+
+    <section class="brief" id="brief">
+      <div class="brief-inner">
+        <div class="brief-eyebrow reveal">Project</div>
+        <h2 class="brief-heading reveal">A complete villa community, <em>planned</em> and attainable.</h2>
+
+        <div class="brief-meta reveal">
+          <div><div class="k">Project Type</div><div class="v">Residential Plotting + Villa</div></div>
+          <div><div class="k">Location</div><div class="v">Aambagh, Rishikesh, Uttarakhand</div></div>
+          <div><div class="k">Plotted Area</div><div class="v">1,639 sq.m &middot; 17,647 sq.ft</div></div>
+          <div><div class="k">Components</div><div class="v">14 Plots &middot; 2BHK&ndash;4BHK Duplex Villas</div></div>
+        </div>
+
+        <p class="brief-para reveal">Conceived as an affordable, fully furnished villa community in Aambagh, Rishikesh, this plotted residential development is planned around a series of carefully proportioned land parcels, each paired with a corresponding villa typology. The project focuses on well-designed, efficient and attainable second places with a strong emphasis on functionality, comfort and a cohesive identity.</p>
+        <p class="brief-para reveal">The master comprises fourteen plots of roughly 87 to 202 sq.m., allowing a mix of 2BHK, 3BHK and 4BHK duplex villas. The architectural and interior direction is contemporary and nature-responsive &mdash; stone, glass, warm textures and natural tones, with large openings and terraces that draw the surrounding environment into the homes.</p>
+
+        <div class="brief-divider reveal"></div>
+
+        <div class="brief-grid">
+          <div class="reveal">
+            <div class="brief-label">Key Design Approach</div>
+            <div class="brief-approach">Efficient planning, consistent architectural identity and plot-responsive villa layouts.</div>
+          </div>
+          <div class="reveal">
+            <div class="brief-label">Highlights</div>
+            <div class="amenity-list">
+              <span class="amenity-chip">Plotting</span>
+              <span class="amenity-chip">Duplex Villas</span>
+              <span class="amenity-chip">2BHK&ndash;4BHK</span>
+              <span class="amenity-chip">Consistent Identity</span>
+              <span class="amenity-chip">Attainable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Aambagh Villa Plots &middot; Rishikesh</p>
+      <a href="masterplanning.html">Master Planning &larr;</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+(function(){var t=document.getElementById("rlxTransition");if(!t)return;
+function internal(h){if(!h)return false;if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false;try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;}}
+var isBack=false;try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="back_forward")isBack=true;}catch(e){}
+var arrived=sessionStorage.getItem("rlxNav")==="1";
+window.__rlxSkipIntro=arrived||isBack;
+if(arrived){sessionStorage.removeItem("rlxNav");t.style.transition="none";t.style.clipPath="inset(0 0 0 0)";t.classList.add("rlx-shown");var revealed=false;
+function doReveal(){if(revealed)return;revealed=true;requestAnimationFrame(function(){void t.offsetWidth;t.style.transition="clip-path .8s cubic-bezier(.76,0,.24,1)";t.style.clipPath="inset(0 0 100% 0)";t.classList.remove("rlx-shown");});}
+if(document.readyState!=="loading")doReveal();else document.addEventListener("DOMContentLoaded",function(){setTimeout(doReveal,120);});setTimeout(doReveal,1400);}
+window.addEventListener("pageshow",function(ev){if(ev.persisted){t.style.transition="none";t.style.clipPath="inset(0 0 100% 0)";t.classList.remove("rlx-shown");}});
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href]"):null;if(!a)return;if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;var href=a.getAttribute("href");if(!internal(href))return;var dest=new URL(href,location.href).href;if(dest===location.href)return;e.preventDefault();sessionStorage.setItem("rlxNav","1");t.style.transition="clip-path .5s cubic-bezier(.76,0,.24,1)";t.style.clipPath="inset(0 0 0 0)";t.classList.add("rlx-shown");setTimeout(function(){location.href=href;},500);});})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){setupNav();initReveal();});
+function setupNav(){
+  var toggler=document.querySelector(".nav-toggler");var navContent=document.querySelector(".nav-content");
+  if(!toggler||!navContent)return;var splitDone=false;
+  function ensureSplit(){if(splitDone||!window.SplitText)return;try{SplitText.create(".nav-items a",{type:"lines",mask:"lines",linesClass:"line"});splitDone=true;}catch(e){}}
+  toggler.addEventListener("click",function(){var willOpen=!navContent.classList.contains("open");toggler.classList.toggle("open");navContent.classList.toggle("open");if(willOpen){ensureSplit();if(window.SplitText)gsap.fromTo(".nav-items a .line",{y:"100%"},{y:"0%",duration:.7,stagger:.06,ease:"power3.out",delay:.55});}});
+}
+function initReveal(){
+  var els=document.querySelectorAll(".brief .reveal");if(!els.length)return;
+  var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target);}});},{threshold:0.18});
+  els.forEach(function(el,i){el.style.transitionDelay=(i*0.06)+"s";io.observe(el);});
+}
+</script>
+
+  </body>
+</html>

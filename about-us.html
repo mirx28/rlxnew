@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | RLX Design Studio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: auto;
+        font-family: "DM Sans", sans-serif;
+        background: #000;
+        overflow-x: hidden;
+      }
+
+      body {
+        min-height: 100vh;
+        color: #fff;
+        background: radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 28%),
+          radial-gradient(circle at bottom, rgba(255,255,255,0.09), transparent 18%),
+          #040506;
+        scroll-behavior: auto;
+        overflow-x: hidden;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.65;
+      }
+
+      /* ===== Shared nav (matches hospitality.html / residential.html / dang.html) ===== */
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 1.5rem 1.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        border: none;
+        gap: 0.5rem;
+      }
+
+      .nav-logo,
+      .nav-toggler {
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .nav-logo img {
+        width: auto;
+        height: 28px;
+        display: block;
+      }
+
+      .nav-toggler {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .nav-toggler span {
+        width: 30px;
+        height: 2px;
+        background-color: rgba(255, 255, 255, 0.92);
+        transition: transform 0.4s ease, opacity 0.4s ease;
+      }
+
+      .nav-toggler.open span:first-child {
+        transform: translateY(3.5px) rotate(45deg) scaleX(0.75);
+      }
+
+      .nav-toggler.open span:nth-child(2) {
+        transform: translateY(-3.5px) rotate(-45deg) scaleX(0.75);
+      }
+
+      .nav-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        pointer-events: none;
+        z-index: 19;
+      }
+
+      .nav-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        transform: scaleY(0);
+        transform-origin: top;
+        will-change: transform;
+        pointer-events: none;
+      }
+
+      .nav-bg:nth-child(1),
+      .nav-bg:nth-child(2),
+      .nav-bg:nth-child(3),
+      .nav-bg:nth-child(4) {
+        background-color: transparent;
+      }
+
+      .nav-items {
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(420px, 2fr);
+        gap: 3.5rem;
+        padding: 6rem 6rem;
+        background-color: transparent;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+        will-change: clip-path;
+      }
+
+      .nav-content.open .nav-items {
+        pointer-events: auto; clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+        background: transparent !important; border: none !important; box-shadow: none !important; overflow: visible !important;
+        -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+      }
+
+      .nav-content.open .nav-items::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at top left, rgba(255,255,255,0.2), transparent 24%),
+                    radial-gradient(circle at bottom right, rgba(200, 238, 230, 0.12), transparent 30%);
+      }
+
+      .nav-items-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2rem;
+      }
+
+      .nav-items-sidebar {
+        max-width: 280px;
+      }
+
+      .nav-items-main {
+        justify-content: center;
+      }
+
+      .nav-items a {
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        letter-spacing: -2%;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-socials,
+      .nav-legal {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .nav-socials a,
+      .nav-secondary-links {
+        font-size: 1rem;
+      }
+
+      .nav-secondary-links {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        white-space: nowrap;
+      }
+
+      .nav-secondary-links a {
+        display: inline-block;
+      }
+
+      .nav-secondary-links span {
+        opacity: 0.75;
+      }
+
+      .nav-legal a {
+        font-size: 0.9rem;
+        color: #7f8c89;
+      }
+
+      .nav-primary-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .nav-links-group {
+        display: contents;
+      }
+
+      .nav-primary-links a {
+        font-size: clamp(2rem, 3.5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        padding: 0.1rem 0;
+        transition: transform 0.35s ease, color 0.25s ease;
+      }
+
+      .nav-primary-links a:hover,
+      .nav-primary-links a:focus {
+        transform: translateX(10px);
+        color: #dce9e1;
+      }
+
+      .nav-content a .line {
+        position: relative;
+        will-change: transform;
+        transform: translateY(100%);
+      }
+
+      @media (max-width: 1000px) {
+        .nav-content,
+        .nav-items {
+          height: 100svh;
+        }
+
+        .nav-items {
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 2rem;
+        }
+
+        .nav-legal,
+        .nav-secondary-links {
+          display: none;
+        }
+
+        .nav-items-col:nth-child(1),
+        .nav-items-col:nth-child(2) {
+          flex: none;
+        }
+      }
+
+      /* ===== Hero: founders ===== */
+
+      .hero {
+        position: relative;
+        width: 100%;
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      .hero-media {
+        position: absolute;
+        inset: 0;
+      }
+
+      .hero-media::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:#000 30%, rgba(4,5,6,0.55) 72%, rgba(4,5,6,0.92) 100%);
+      }
+
+      .hero-copy {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 3.5rem;
+        z-index: 2;
+        padding: 0 5vw;
+      }
+
+      .hero-copy .eyebrow {
+        display: block;
+        margin-bottom: 1rem;
+        opacity: 0.85;
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(2.6rem, 5.4vw, 5.5rem);
+        letter-spacing: -0.02em;
+        line-height: 1.02;
+        max-width: 20ch;
+      }
+
+      .hero-subtitle {
+        margin-top: 1.5rem;
+        max-width: 38ch;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        opacity: 0.82;
+      }
+
+      .hero-scroll-cue {
+        position: absolute;
+        right: 5vw;
+        bottom: 3.5rem;
+        z-index: 2;
+        font-family: "DM Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+
+      @media (max-width: 700px) {
+        .hero-scroll-cue {
+          display: none;
+        }
+      }
+
+      /* ===== Section shell ===== */
+
+      section {
+        position: relative;
+        width: 100%;
+        padding: 7rem 5vw;
+      }
+
+      .section-divider {
+        width: 100%;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      /* ===== Philosophy / pull-quote ===== */
+
+      .philosophy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .quote-mark {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(4rem, 9vw, 8rem);
+        line-height: 1;
+        opacity: 0.16;
+        margin-bottom: -1.5rem;
+      }
+
+      .pull-quote {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+        line-height: 1.28;
+        max-width: 22ch;
+        margin-bottom: 2.5rem;
+      }
+
+      .philosophy-body {
+        max-width: 46ch;
+        font-size: 1.02rem;
+        line-height: 1.85;
+        opacity: 0.82;
+      }
+
+      /* ===== Principles ===== */
+
+      .principles-header {
+        margin-bottom: 3.5rem;
+      }
+
+      .principles-header h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(2rem, 3.2vw, 3rem);
+        letter-spacing: -0.02em;
+        margin-top: 0.75rem;
+      }
+
+      .principles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3.5rem 3rem;
+      }
+
+      .principle {
+        position: relative;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .principle-index {
+        font-family: "DM Mono", monospace;
+        font-size: 0.85rem;
+        letter-spacing: 0.14em;
+        opacity: 0.55;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .principle h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(1.5rem, 2vw, 1.9rem);
+        letter-spacing: -0.01em;
+        margin-bottom: 0.75rem;
+      }
+
+      .principle p {
+        font-size: 0.98rem;
+        line-height: 1.7;
+        opacity: 0.78;
+        max-width: 34ch;
+      }
+
+      @media (max-width: 800px) {
+        .principles-grid {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+      }
+
+      /* ===== Image break ===== */
+
+      .image-break {
+        padding: 0 5vw;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+
+      .image-break-panel {
+        position: relative;
+        overflow: hidden;
+        min-height: 340px;
+      }
+
+      .image-break-panel--tall {
+        min-height: 520px;
+      }
+
+      .image-break-caption {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        padding: 1.25rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        background:#000 0%, rgba(0,0,0,0.6) 100%);
+        width: 100%;
+      }
+
+      @media (max-width: 800px) {
+        .image-break {
+          grid-template-columns: 1fr;
+        }
+
+        .image-break-panel,
+        .image-break-panel--tall {
+          min-height: 380px;
+        }
+      }
+
+      /* ===== Founders bios ===== */
+
+      .founders {
+        padding-top: 7rem;
+      }
+
+      .founders-header {
+        margin-bottom: 3.5rem;
+      }
+
+      .founders-header h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(2rem, 3.2vw, 3rem);
+        letter-spacing: -0.02em;
+        margin-top: 0.75rem;
+      }
+
+      .founders-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+      }
+
+      .founder-card {
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        padding-top: 1.5rem;
+      }
+
+      .founder-photo {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+
+      .founder-name {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+        letter-spacing: -0.01em;
+        margin-bottom: 0.35rem;
+      }
+
+      .founder-role {
+        font-family: "DM Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-bottom: 1.1rem;
+      }
+
+      .founder-bio {
+        font-size: 0.98rem;
+        line-height: 1.75;
+        opacity: 0.82;
+        max-width: 40ch;
+      }
+
+      @media (max-width: 800px) {
+        .founder-single-photo {
+          max-width: 100%;
+        }
+      }
+
+      /* ===== Single (merged) founder ===== */
+
+      .founder-single {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .founder-single-photo {
+        width: 100%;
+        max-width: 900px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+      .founder-single-photo img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: auto;
+        object-fit: cover;
+      }
+
+      .founder-single .founder-name {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+        letter-spacing: -0.01em;
+        margin-bottom: 0.5rem;
+      }
+
+      .founder-single .founder-role {
+        font-family: "DM Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-bottom: 1.4rem;
+      }
+
+      .founder-single .founder-bio {
+        font-size: 1rem;
+        line-height: 1.8;
+        opacity: 0.82;
+        max-width: 46ch;
+      }
+
+      /* ===== Client quote ===== */
+
+      .quote-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 2rem;
+        padding-bottom: 8rem;
+      }
+
+      .quote-section .eyebrow {
+        margin-bottom: 1.5rem;
+        opacity: 0.55;
+      }
+
+      .quote-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: clamp(2.8rem, 7vw, 6.5rem);
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        max-width: 22ch;
+      }
+
+      /* ===== Closing CTA ===== */
+
+      .closing {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 9rem;
+      }
+
+      .closing h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+        font-size: clamp(2.2rem, 4.2vw, 4rem);
+        letter-spacing: -0.02em;
+        line-height: 1.08;
+        max-width: 18ch;
+        margin-bottom: 2rem;
+      }
+
+      .closing-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem 1.5rem;
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.95);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .closing-link:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+
+      .line,
+      .word {
+        position: relative;
+        display: inline-block;
+        will-change: transform;
+      }
+
+      @media (max-width: 700px) {
+        section {
+          padding: 5rem 6vw;
+        }
+      }
+    
+/* ========== RLX unified full-screen nav overlay ========== */
+.nav-content{
+  position: fixed !important;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+}
+.nav-content .nav-bg{
+  position: absolute;
+  inset: 0;
+  background: rgba(10,12,14,0.25);
+  transform: scaleY(0);
+  transform-origin: top;
+  pointer-events: none;
+  transition: transform 0.7s cubic-bezier(0.76,0,0.24,1);
+  will-change: transform;
+}
+.nav-content .nav-bg:last-child{
+  background:#000 0%, rgba(10,12,14,0.56) 100%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+}
+.nav-content.open .nav-bg{ transform: scaleY(1); }
+.nav-content .nav-items{
+  pointer-events: none;
+  clip-path: polygon(0 0,100% 0,100% 0,0 0);
+  will-change: clip-path;
+  transition: clip-path 0.55s ease 0.18s;
+}
+.nav-content.open .nav-items{
+  pointer-events: auto;
+  clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
+}
+.nav-content a .line{
+  position: relative;
+  will-change: transform;
+  transform: translateY(100%);
+}
+
+/* RLX: keep header above the nav overlay so the hamburger stays clickable */
+nav{ position: fixed; z-index: 80 !important; }
+.nav-toggler{ position: relative; z-index: 90 !important; }
+@media (min-width: 1001px){
+  .nav-content .nav-items{
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: minmax(220px,1fr) minmax(420px,2fr);
+    gap: 3.5rem;
+    padding: 6.5rem 6rem;
+  }
+}
+@media (max-width: 1000px){
+  .nav-content .nav-items{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 2rem;
+  }
+}
+
+  </style>
+  </head>
+  <body>
+
+<div id="rlxTransition" aria-hidden="true"><span class="rlx-brand"><img src="rlx-logo.webp" alt="RLX" /></span></div>
+<style>
+#rlxTransition{position:fixed;inset:0;z-index:2000;pointer-events:none;background:#000;display:flex;align-items:center;justify-content:center;clip-path:inset(0 0 100% 0);}
+
+#rlxTransition .rlx-brand{opacity:0;transform:translateY(12px);transition:opacity .5s ease .1s,transform .5s ease .1s;position:relative;}
+#rlxTransition .rlx-brand img{height:clamp(2rem,6vw,4.6rem);width:auto;display:block;max-width:72vw;}
+#rlxTransition.rlx-shown .rlx-brand{opacity:1;transform:none;}
+</style>
+<script>
+(function(){
+  var t=document.getElementById('rlxTransition'); if(!t) return;
+  function internal(h){ if(!h)return false; if(/^(mailto:|tel:|javascript:|#|https?:|\/\/)/.test(h))return false; try{return new URL(h,location.href).origin===location.origin;}catch(e){return false;} }
+  var isBack=false; try{ var n=performance.getEntriesByType('navigation')[0]; if(n&&n.type==='back_forward') isBack=true; }catch(e){}
+  var arrived=sessionStorage.getItem('rlxNav')==='1';
+  window.__rlxSkipIntro = arrived || isBack;
+  if(arrived||isBack){ var pl=document.querySelector('.preloader'); if(pl){pl.style.display='none';} }
+  if(arrived){
+    sessionStorage.removeItem('rlxNav');
+    t.style.transition='none';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    var revealed=false;
+    function doReveal(){ if(revealed) return; revealed=true;
+      requestAnimationFrame(function(){ void t.offsetWidth; t.style.transition='clip-path .8s cubic-bezier(.76,0,.24,1)'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); });
+    }
+    if(document.readyState!=='loading'){ doReveal(); }
+    else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(doReveal,120); }); }
+    setTimeout(doReveal,1400);
+  }
+  window.addEventListener('pageshow', function(ev){ if(ev.persisted){ t.style.transition='none'; t.style.clipPath='inset(0 0 100% 0)'; t.classList.remove('rlx-shown'); } });
+  document.addEventListener('click', function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a[href]'):null; if(!a)return;
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    var href=a.getAttribute('href'); if(!internal(href))return;
+    var dest=new URL(href,location.href).href; if(dest===location.href)return;
+    e.preventDefault();
+    sessionStorage.setItem('rlxNav','1');
+    t.style.transition='clip-path .5s cubic-bezier(.76,0,.24,1)';
+    t.style.clipPath='inset(0 0 0 0)';
+    t.classList.add('rlx-shown');
+    setTimeout(function(){ location.href=href; },500);
+  });
+})();
+</script>
+
+        <nav>
+      <div class="nav-logo">
+        <a href="index.html"><img src="logo.png" alt="RLX logo" loading="lazy" /></a>
+      </div>
+      <button class="nav-toggler" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+    <div class="nav-content">
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg"></div>
+      <div class="nav-bg bg-solid"></div>
+
+      <div class="nav-items">
+        <div class="nav-items-col nav-items-sidebar">
+          <div class="nav-socials">
+            <a href="https://www.instagram.com/rlxdesignstudio/reels/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/company/rlx-design-studio/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <div class="nav-secondary-links">
+              <a href="contact.html">Contact&Careers</a>
+            </div>
+          </div>
+          <div class="nav-legal">
+            <a href="#">Cookie Policy</a>
+            <a href="#">Accessibility</a>
+            <a href="#">Data Rights</a>
+            <a href="#">Disclosures</a>
+          </div>
+        </div>
+        <div class="nav-items-col nav-items-main">
+          <div class="nav-primary-links">
+            <div class="nav-links-group">
+              <a href="index.html">Home</a>
+              <a href="hospitality.html">Hospitality</a>
+              <a href="residential.html">Residential</a>
+              <a href="interior.html">Interior Design Consultancy</a>
+            </div>
+            <div class="nav-links-group">
+              <a href="masterplanning.html">Master Planning</a>
+              <a href="about-us.html">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Hero: studio introduction ===== -->
+    <section class="hero" style="padding: 0;">
+      <div class="hero-media">
+        <!-- TODO: replace with a real studio or founders portrait -->
+        <img src="assets/founders.jpg" alt="The founders of RLX Design Studio" />
+      </div>
+      <div class="hero-copy">
+        <span class="eyebrow">The Studio</span>
+        <h1 class="hero-title">rl X design studio brings collaboration, craft, and care into every space.</h1>
+        <p class="hero-subtitle">Founded by Rishabh Kalra and Lakshay Jasoria, our studio is built on inclusive, client-first design that balances creativity, functionality, and thoughtful execution from concept through completion.</p>
+      </div>
+      <div class="hero-scroll-cue">Scroll</div>
+    </section>
+
+    <!-- ===== Philosophy ===== -->
+    <section class="philosophy">
+      <span class="quote-mark">&ldquo;</span>
+      <p class="pull-quote">
+        Great design comes from collaborative relationships with our clients.
+      </p>
+      <p class="philosophy-body">
+        rl X design studio was founded by Rishabh Kalra and Lakshay Jasoria with a commitment to inclusivity, creativity, and innovation. Our name, which evolved from Rishabh-Lakshay & clients, reflects our belief that great design comes from collaborative relationships with our clients.
+      </p>
+      <p class="philosophy-body">
+        We take pride in advocating for the needs and wants of our clients and telling their stories through our work. Our responsibility extends beyond beautiful buildings — it extends to enriching lives, strengthening communities, and contributing to the sustainability of the soul.
+      </p>
+      <p class="philosophy-body">
+        We are passionate about creating unique and functional spaces that reflect our clients’ vision and personality, and we deliver exceptional service from concept through value engineering to completion.
+      </p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ===== Principles ===== -->
+    <section class="principles">
+      <div class="principles-header">
+        <span class="eyebrow">Why choose us</span>
+        <h2>Our design approach is rooted in empathy, craft, and purpose.</h2>
+      </div>
+      <div class="principles-grid">
+        <div class="principle">
+          <span class="principle-index">01</span>
+          <h3>Client-led collaboration</h3>
+          <p>We begin with the client's aspirations and keep them central to every decision, from brief to completion.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">02</span>
+          <h3>Multidisciplinary thinking</h3>
+          <p>Architecture, interiors, and value engineering work together seamlessly so the project performs beautifully at every scale.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">03</span>
+          <h3>Meaningful spaces</h3>
+          <p>We design with care for function, materiality, and atmosphere so spaces inspire, energize, and support everyday life.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">04</span>
+          <h3>Responsible impact</h3>
+          <p>As private-sector designers, we are committed to contributing to better urban fabric, sustainable communities, and the longevity of each project.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="principles-header">
+        <span class="eyebrow">What we can do</span>
+        <h2>A range of services shaped around design, detail, and delivery.</h2>
+      </div>
+      <div class="principles-grid">
+        <div class="principle">
+          <span class="principle-index">01</span>
+          <h3>Architectural design</h3>
+          <p>From site-responsive planning to conceptual design, we create buildings that feel rooted and refined.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">02</span>
+          <h3>Interior design</h3>
+          <p>We design interiors that reflect the client’s personality, balancing atmosphere, comfort, and detail.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">03</span>
+          <h3>Space planning & materiality</h3>
+          <p>We guide spatial arrangements, furniture, lighting, and materials so every room feels intentional and complete.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">04</span>
+          <h3>Value engineering</h3>
+          <p>We support projects through delivery, optimizing design decisions for performance, budget, and buildability.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles">
+      <div class="principles-header">
+        <span class="eyebrow">Who we work with</span>
+        <h2>Clients seeking meaningful design across residential, hospitality, and commercial spaces.</h2>
+      </div>
+      <div class="principles-grid">
+        <div class="principle">
+          <span class="principle-index">01</span>
+          <h3>Homeowners</h3>
+          <p>Those looking for bespoke residential solutions that reflect function, context, and personal story.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">02</span>
+          <h3>Developers</h3>
+          <p>Projects that demand design intelligence, operational clarity, and spaces that perform for guests and users.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">03</span>
+          <h3>Hospitality operators</h3>
+          <p>Clients who value elevated guest experience, narrative-driven interiors, and detailed architectural expression.</p>
+        </div>
+        <div class="principle">
+          <span class="principle-index">04</span>
+          <h3>Design partners</h3>
+          <p>Teams seeking a collaborative studio that brings clarity, precision, and long-term thinking to every phase.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Image break ===== -->
+    <section class="image-break-section" style="padding-top: 0;">
+      <div class="image-break">
+        <div class="image-break-panel image-break-panel--tall">
+          <!-- TODO: studio / site-visit image -->
+          <img src="assets/studio-1.jpg" alt="" />
+          <div class="image-break-caption">On Site</div>
+        </div>
+        <div class="image-break-panel">
+          <!-- TODO: sketches / material palette image -->
+          <img src="assets/studio-2.jpg" alt="" />
+          <div class="image-break-caption">Working Materials</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ===== Founders bios ===== -->
+    <section class="founders">
+      <div class="founders-header">
+        <span class="eyebrow">Meet the Founders</span>
+        <h2>Co-founders shaping every project with experience and intention.</h2>
+      </div>
+      <div class="founder-single">
+        <div class="founder-single-photo">
+          <!-- TODO: single photo of both founders -->
+          <img src="assets/mergefounder.jpg" alt="Rishabh Kalra and Lakshay Jasoria, co-founders of RLX Design Studio" />
+        </div>
+        <p class="founder-name">Rishabh Kalra &amp; Lakshay Jasoria</p>
+        <p class="founder-role">Co-founders, RLX Design Studio</p>
+        <p class="founder-bio">
+          Both trained at the School of Planning and Architecture, Bhopal, and developed their craft across residential, commercial, and hospitality projects in India and abroad. Their shared work is grounded in client stories, practical detailing, and the thoughtful use of materials &mdash; a refined eye for site, detail, and the way buildings perform over time.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Client quote ===== -->
+    <section class="quote-section">
+      <span class="eyebrow">One of our clients said</span>
+      <p class="quote-text">&ldquo;Do bhai, dono tabahi&hellip;&rdquo;</p>
+    </section>
+
+    <!-- ===== Closing ===== -->
+    <section class="closing">
+      <h2>Have a site, a brief, or just an idea?</h2>
+      <a href="contact.html" class="closing-link">Start a Conversation</a>
+    </section>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        function revealOnScroll() {
+          SplitText.create(".hero-title", { type: "words", wordsClass: "word", mask: "words" });
+          SplitText.create(".pull-quote", { type: "lines", linesClass: "line", mask: "lines" });
+          SplitText.create(
+            ".principles-header h2, .founders-header h2, .closing h2",
+            { type: "lines", linesClass: "line", mask: "lines" }
+          );
+
+          gsap.set(".hero-title .word", { y: "100%" });
+          gsap.to(".hero-title .word", {
+            y: "0%",
+            duration: 1,
+            ease: "power4.out",
+            stagger: 0.06,
+            delay: 0.3,
+          });
+
+          gsap.set(".pull-quote .line", { y: "100%" });
+          gsap.to(".pull-quote .line", {
+            y: "0%",
+            duration: 0.9,
+            ease: "power4.out",
+            stagger: 0.06,
+            scrollTrigger: { trigger: ".philosophy", start: "top 70%" },
+          });
+
+          gsap.set(".principles-header h2 .line, .founders-header h2 .line, .closing h2 .line", { y: "100%" });
+          document.querySelectorAll(".principles-header h2, .founders-header h2, .closing h2").forEach((el) => {
+            gsap.to(el.querySelectorAll(".line"), {
+              y: "0%",
+              duration: 0.9,
+              ease: "power4.out",
+              stagger: 0.06,
+              scrollTrigger: { trigger: el, start: "top 85%" },
+            });
+          });
+
+          gsap.utils.toArray(".principle").forEach((el) => {
+            gsap.from(el, {
+              opacity: 0,
+              y: 24,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 88%" },
+            });
+          });
+
+          gsap.utils.toArray(".founder-card").forEach((el) => {
+            gsap.from(el, {
+              opacity: 0,
+              y: 24,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 88%" },
+            });
+          });
+
+          gsap.utils.toArray(".founder-single-photo").forEach((el) => {
+            gsap.from(el, {
+              opacity: 0,
+              y: 30,
+              duration: 0.9,
+              ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 90%" },
+            });
+          });
+
+          gsap.from(".quote-text", {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ".quote-section", start: "top 82%" },
+          });
+
+          gsap.utils.toArray(".image-break-panel").forEach((el) => {
+            gsap.from(el, {
+              opacity: 0,
+              y: 30,
+              duration: 0.9,
+              ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 90%" },
+            });
+          });
+        }
+
+        function setupOverlayMenu() {
+
+          const toggler = document.querySelector(".nav-toggler");
+
+          const navContent = document.querySelector(".nav-content");
+
+          if (!toggler || !navContent) return;
+
+
+          let splitDone = false;
+
+          function ensureSplit() {
+
+            if (splitDone || !window.SplitText) return;
+
+            try {
+
+              SplitText.create(".nav-items a", { type: "lines", mask: "lines", linesClass: "line" });
+
+              splitDone = true;
+
+            } catch (e) {}
+
+          }
+
+
+          toggler.addEventListener("click", function () {
+
+            const willOpen = !navContent.classList.contains("open");
+
+            toggler.classList.toggle("open");
+
+            navContent.classList.toggle("open");
+
+            if (willOpen) {
+
+              ensureSplit();
+
+              if (window.SplitText) {
+
+                gsap.fromTo(
+
+                  ".nav-items a .line",
+
+                  { y: "100%" },
+
+                  { y: "0%", duration: 0.7, stagger: 0.06, ease: "power3.out", delay: 0.55 }
+
+                );
+
+              }
+
+            }
+
+          });
+
+        }
+
+        revealOnScroll();
+        setupOverlayMenu();
+      });
+    </script>
+  
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+  var lenis = new Lenis({ duration:1.2, easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));}, smoothTouch:true, touchMultiplier:1.5 });
+  function raf(time){ if(!document.hidden) lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  if (window.ScrollTrigger) lenis.on("scroll", ScrollTrigger.update);
+});
+</script>
+</body>
+</html>
