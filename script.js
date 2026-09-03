@@ -57,6 +57,18 @@ try {
   } else {
     lenisInstance = null;
     document.documentElement.style.scrollBehavior = 'auto';
+
+    // Android/Samsung Internet resize the viewport mid-scroll as their
+    // address bar collapses. ScrollTrigger's pinned sections (.slider,
+    // .spotlight) read window/touch measurements that shift under them
+    // during that resize, which can lock scrolling entirely on those
+    // browsers even though the same pins work fine on iOS Safari and
+    // desktop. normalizeScroll() forces GSAP to take over touch scrolling
+    // with consistent measurements, which is the fix GSAP itself documents
+    // for this Android-only pinning issue.
+    if (/Android/i.test(navigator.userAgent) && typeof ScrollTrigger.normalizeScroll === 'function') {
+      ScrollTrigger.normalizeScroll(true);
+    }
   }
 
 const ROTATING_WORDS = ["Architecture", "Interiors", "Master Planning", "Design consultancy", "Design Studio llp"];
