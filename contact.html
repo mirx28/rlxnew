@@ -67,6 +67,8 @@
       .nav-toggler {
         padding: 0.8rem;
         cursor: pointer;
+        position: relative;
+        z-index: 90 !important;
       }
 
       .nav-logo img {
@@ -102,12 +104,10 @@
       }
 
       .nav-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
+        position: fixed !important;
+        inset: 0;
         pointer-events: none;
-        z-index: 49;
+        z-index: 70;
       }
 
       .nav-bg {
@@ -119,14 +119,23 @@
         z-index: -1;
         transform: scaleY(0);
         transform-origin: top;
-        will-change: transform;
         pointer-events: none;
+        transition: transform .7s cubic-bezier(.76,0,.24,1);
+        will-change: transform;
       }
 
-      .nav-bg:nth-child(1) { background-color: rgba(255,255,255,0.08); }
-      .nav-bg:nth-child(2) { background-color: rgba(255,255,255,0.06); }
-      .nav-bg:nth-child(3) { background-color: rgba(255,255,255,0.045); }
-      .nav-bg:nth-child(4) { background-color: rgba(255,255,255,0.03); }
+      .nav-bg:nth-child(1),
+      .nav-bg:nth-child(2),
+      .nav-bg:nth-child(3),
+      .nav-bg:nth-child(4) {
+        background-color: rgba(10,12,14,0.25);
+      }
+      .nav-bg.bg-solid {
+        background: linear-gradient(180deg, rgba(12,16,18,0.82) 0%, rgba(12,16,18,0.6) 100%);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      }
 
       .nav-items {
         display: grid;
@@ -138,8 +147,16 @@
         will-change: clip-path;
       }
 
+      .nav-content.open .nav-bg { transform: scaleY(1); }
       .nav-content.open .nav-items {
-        background: rgba(255, 255, 255, 0.1);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        overflow: visible !important;
         border: 1px solid rgba(255,255,255,0.14);
         box-shadow: 0 40px 120px rgba(0, 0, 0, 0.16);
         backdrop-filter: blur(26px);
