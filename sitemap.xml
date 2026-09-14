@@ -1,85 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mirx28.github.io/rlxnew/</loc>
+    <loc>https://www.rlxdesignstudio.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/hospitality.html</loc>
+    <loc>https://www.rlxdesignstudio.com/hospitality.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/residential.html</loc>
+    <loc>https://www.rlxdesignstudio.com/residential.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/masterplanning.html</loc>
+    <loc>https://www.rlxdesignstudio.com/masterplanning.html</loc>
     <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/interior.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/recreational.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/wellness.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/about-us.html</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/about-us.html</loc>
+    <loc>https://www.rlxdesignstudio.com/contact.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/2.5bhk.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/contact.html</loc>
+    <loc>https://www.rlxdesignstudio.com/dharkot.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/Chandrabhaga.html</loc>
+    <loc>https://www.rlxdesignstudio.com/duplex.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/wellness.html</loc>
+    <loc>https://www.rlxdesignstudio.com/gaj.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/eternal.html</loc>
+    <loc>https://www.rlxdesignstudio.com/agar.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/anant.html</loc>
+    <loc>https://www.rlxdesignstudio.com/ambhagh.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/haven.html</loc>
+    <loc>https://www.rlxdesignstudio.com/office.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/sukritham.html</loc>
+    <loc>https://www.rlxdesignstudio.com/puranpur.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/cafe.html</loc>
+    <loc>https://www.rlxdesignstudio.com/tehri.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/kafe.html</loc>
+    <loc>https://www.rlxdesignstudio.com/suites.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/4BHKbotique.html</loc>
+    <loc>https://www.rlxdesignstudio.com/Chandrabhaga.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirx28.github.io/rlxnew/Dang.html</loc>
+    <loc>https://www.rlxdesignstudio.com/eternal.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/anant.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/haven.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/sukritham.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/cafe.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/kafe.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/Dang.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/Gujrada.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/Kailash.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/Bella.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/bagi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.rlxdesignstudio.com/kasmoli.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
